@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.goodspeedscattool.ui.home.HomeFragment"
+        android:name="com.kk4vcz.goodspeedscattool.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_codeplug"
-        android:name="com.example.goodspeedscattool.ui.codeplug.CodeplugFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugFragment"
+        android:label="@string/menu_codeplug"
+        tools:layout="@layout/fragment_codeplug" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.goodspeedscattool.ui.cat.CatFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.kk4vcz.goodspeedscattool.ui.cat.CatFragment"
+        android:label="@string/menu_cat"
+        tools:layout="@layout/fragment_cat" />
 </navigation>

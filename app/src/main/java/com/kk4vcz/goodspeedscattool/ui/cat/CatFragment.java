@@ -1,4 +1,4 @@
-package com.example.goodspeedscattool.ui.codeplug;
+package com.kk4vcz.goodspeedscattool.ui.cat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,19 +12,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.goodspeedscattool.R;
+import com.kk4vcz.goodspeedscattool.R;
 
-public class CodeplugFragment extends Fragment {
+public class CatFragment extends Fragment {
 
-    private CodeplugViewModel galleryViewModel;
+    private CatViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(CodeplugViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        slideshowViewModel =
+                ViewModelProviders.of(this).get(CatViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_cat, container, false);
+        final TextView textView = root.findViewById(R.id.text_slideshow);
+        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

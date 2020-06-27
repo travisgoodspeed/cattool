@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
-        applicationId "com.example.goodspeedscattool"
+        applicationId "com.kk4vcz.goodspeedscattool"
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 1

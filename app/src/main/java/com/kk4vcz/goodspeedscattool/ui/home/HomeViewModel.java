@@ -1,16 +1,16 @@
-package com.example.goodspeedscattool.ui.codeplug;
+package com.kk4vcz.goodspeedscattool.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class CodeplugViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public CodeplugViewModel() {
+    public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is the codeplug fragment");
+        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {

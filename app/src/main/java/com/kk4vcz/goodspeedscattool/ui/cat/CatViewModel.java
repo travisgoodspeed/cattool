@@ -1,16 +1,16 @@
-package com.example.goodspeedscattool.ui.home;
+package com.kk4vcz.goodspeedscattool.ui.cat;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class CatViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public CatViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is the CAT fragment");
     }
 
     public LiveData<String> getText() {

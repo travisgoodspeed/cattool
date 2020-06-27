@@ -1,4 +1,4 @@
-package com.example.goodspeedscattool;
+package com.kk4vcz.goodspeedscattool;
 
 import android.os.Bundle;
 import android.view.View;

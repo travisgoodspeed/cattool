@@ -1,4 +1,4 @@
-package com.example.goodspeedscattool;
+package com.kk4vcz.goodspeedscattool;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.goodspeedscattool", appContext.getPackageName());
+        assertEquals("com.kk4vcz.goodspeedscattool", appContext.getPackageName());
     }
 }

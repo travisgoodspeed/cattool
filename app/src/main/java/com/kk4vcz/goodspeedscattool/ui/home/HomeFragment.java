@@ -1,4 +1,4 @@
-package com.example.goodspeedscattool.ui.home;
+package com.kk4vcz.goodspeedscattool.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.goodspeedscattool.R;
+import com.kk4vcz.goodspeedscattool.R;
 
 public class HomeFragment extends Fragment {
 
