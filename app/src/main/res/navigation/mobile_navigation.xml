@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.goodspeedscattool.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_codeplug"
+        android:name="com.example.goodspeedscattool.ui.codeplug.CodeplugFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.goodspeedscattool.ui.slideshow.SlideshowFragment"
+        android:name="com.example.goodspeedscattool.ui.cat.CatFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.goodspeedscattool.ui.slideshow;
+package com.example.goodspeedscattool.ui.cat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,14 +14,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.goodspeedscattool.R;
 
-public class SlideshowFragment extends Fragment {
+public class CatFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private CatViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+                ViewModelProviders.of(this).get(CatViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

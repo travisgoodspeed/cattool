@@ -1,4 +1,4 @@
-package com.example.goodspeedscattool.ui.gallery;
+package com.example.goodspeedscattool.ui.codeplug;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,14 +14,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.goodspeedscattool.R;
 
-public class GalleryFragment extends Fragment {
+public class CodeplugFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private CodeplugViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
+                ViewModelProviders.of(this).get(CodeplugViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
