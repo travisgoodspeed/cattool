@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kk4vcz.goodspeedscattool.R;
+import com.kk4vcz.goodspeedscattool.RadioTask;
 
 public class HomeFragment extends Fragment {
 
@@ -37,7 +38,8 @@ public class HomeFragment extends Fragment {
         final Button connect = root.findViewById(R.id.but_connect);
         connect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                RadioTask asyncTask=new RadioTask();
+                asyncTask.execute();
             }
         });
 

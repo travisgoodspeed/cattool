@@ -9,15 +9,24 @@ package com.kk4vcz.goodspeedscattool;
  */
 
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import com.kk4vcz.codeplug.CATRadio;
 import com.kk4vcz.codeplug.RadioConnection;
 import com.kk4vcz.codeplug.connections.TCPConnection;
 import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
 
+
+import com.kk4vcz.goodspeedscattool.R;
+import com.kk4vcz.goodspeedscattool.RadioTask;
+
 import java.io.IOException;
 
-public class Main extends AsyncTask {
+public class RadioTask extends AsyncTask {
     long freq;
     long freqb;
 
@@ -26,16 +35,24 @@ public class Main extends AsyncTask {
         /* Hardcoding this until it begins to work. */
 
         try {
-            RadioConnection conn = TCPConnection.getConnection("localhost:54321");
+            RadioConnection conn = TCPConnection.getConnection("192.168.1.5:54321");
             CATRadio radio=new TMD710G(conn.getInputStream(), conn.getOutputStream());
+            for(int i=0; i<20; i++)
+                radio.getID();
             freq=radio.getFrequency();
             freqb=radio.getFrequencyB();
 
-
         }catch(IOException e){
             e.printStackTrace();
+            Log.e("RADIORESULT", e.getMessage());
         }
 
-        return null;
+        return String.format("%d %d\n", freq, freqb);
+    }
+
+    @Override
+    protected void onPostExecute(Object res) {
+        super.onPostExecute(res);
+        Log.e("RADIORESULT", (String) res);
     }
 }
