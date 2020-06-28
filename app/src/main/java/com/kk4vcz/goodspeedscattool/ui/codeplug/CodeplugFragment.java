@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.kk4vcz.goodspeedscattool.R;
 
@@ -23,6 +24,8 @@ public class CodeplugFragment extends Fragment {
         galleryViewModel =
                 ViewModelProviders.of(this).get(CodeplugViewModel.class);
         View root = inflater.inflate(R.layout.fragment_codeplug, container, false);
+
+        /*
         final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -30,6 +33,10 @@ public class CodeplugFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        */
+        final RecyclerView rv = root.findViewById(R.id.memlist);
+
+
         return root;
     }
 }
