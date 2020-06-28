@@ -13,7 +13,7 @@
 
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_cat"
         android:name="com.kk4vcz.goodspeedscattool.ui.cat.CatFragment"
         android:label="@string/menu_cat"
         tools:layout="@layout/fragment_cat" />
@@ -27,6 +27,6 @@
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.kk4vcz.goodspeedscattool.ui.settings.SettingsFragment"
-        android:label="@string/menu_codeplug" />
+        android:label="Settings" />
 
 </navigation>

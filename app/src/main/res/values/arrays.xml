@@ -3,10 +3,14 @@
     <string-array name="radio_entries">
         <item>Kenwood TH-D74</item>
         <item>Kenwood TH-D72</item>
+        <item>Kenwood TM-D710</item>
+        <item>Yaesu FT-991A</item>
     </string-array>
 
     <string-array name="radio_values">
         <item>d74</item>
         <item>d72</item>
+        <item>d710</item>
+        <item>991a</item>
     </string-array>
 </resources>
