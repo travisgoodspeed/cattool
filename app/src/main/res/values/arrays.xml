@@ -1,0 +1,12 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="radio_entries">
+        <item>Kenwood TH-D74</item>
+        <item>Kenwood TH-D72</item>
+    </string-array>
+
+    <string-array name="radio_values">
+        <item>d74</item>
+        <item>d72</item>
+    </string-array>
+</resources>

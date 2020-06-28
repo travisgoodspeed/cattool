@@ -11,6 +11,13 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.kk4vcz.goodspeedscattool.ui.cat.CatFragment"
+        android:label="@string/menu_cat"
+        tools:layout="@layout/fragment_cat" />
+
     <fragment
         android:id="@+id/nav_codeplug"
         android:name="com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugFragment"
@@ -18,8 +25,8 @@
         tools:layout="@layout/fragment_codeplug" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.kk4vcz.goodspeedscattool.ui.cat.CatFragment"
-        android:label="@string/menu_cat"
-        tools:layout="@layout/fragment_cat" />
+        android:id="@+id/nav_settings"
+        android:name="com.kk4vcz.goodspeedscattool.ui.settings.SettingsFragment"
+        android:label="@string/menu_codeplug" />
+
 </navigation>

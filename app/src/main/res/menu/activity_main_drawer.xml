@@ -9,12 +9,16 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_cat"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="CAT" />
         <item
             android:id="@+id/nav_codeplug"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Codeplug" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Settings" />
     </group>
 </menu>

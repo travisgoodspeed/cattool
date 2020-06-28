@@ -1,0 +1,45 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Connection">
+
+        <EditTextPreference
+            app:key="callsign"
+            app:title="Your Callsign"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="d74"
+            app:entries="@array/radio_entries"
+            app:entryValues="@array/radio_values"
+            app:key="radio"
+            app:title="@string/radio_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="server"
+            app:title="Server Hostname"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="port"
+            app:title="Server Port"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <!--
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+    -->
+
+</PreferenceScreen>
