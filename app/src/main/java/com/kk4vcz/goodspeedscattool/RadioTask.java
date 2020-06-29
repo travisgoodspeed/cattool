@@ -10,19 +10,7 @@ package com.kk4vcz.goodspeedscattool;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
-
-import com.kk4vcz.codeplug.CATRadio;
-import com.kk4vcz.codeplug.RadioConnection;
-import com.kk4vcz.codeplug.connections.TCPConnection;
-import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
-
-
-import com.kk4vcz.goodspeedscattool.R;
-import com.kk4vcz.goodspeedscattool.RadioTask;
 
 import java.io.IOException;
 
@@ -32,11 +20,27 @@ public class RadioTask extends AsyncTask {
         /* Hardcoding this until it begins to work. */
 
         try {
-            RadioState.connect("d710", "192.168.1.5:54321");
-            RadioState.update();
+            if(RadioState.connect("d710", "192.168.1.5:54321")) {
+                RadioState.updateCAT();
+                RadioState.disconnect();
+            }else{
+                Log.e("RADIORESULT", "Ignoring duplicate connection request.");
+            }
         }catch(IOException e){
             e.printStackTrace();
             Log.e("RADIORESULT", e.getMessage());
+            try{
+                RadioState.disconnect();
+            }catch(IOException f){
+                Log.e("RADIORESULT", "IOException in disconnect handler.");
+            }
+        }catch(NullPointerException e){
+            Log.e("RADIORESULT", e.getMessage());
+            try{
+                RadioState.disconnect();
+            }catch(IOException f){
+                Log.e("RADIORESULT", "IOException in null pointer exception handler.");
+            }
         }
 
 

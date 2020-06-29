@@ -28,17 +28,23 @@ public class RadioState {
     public static TextView textFreqa=null;
 
 
-    static void connect(String driver, String path) throws IOException {
+    static boolean connect(String driver, String path) throws IOException {
+        if(conn!=null)
+            return false;
+
         //TODO Support other radio and connection drivers.
-        conn = TCPConnection.getConnection("192.168.1.5:54321");
+        conn = TCPConnection.getConnection(path);
         radio=new TMD710G(conn.getInputStream(), conn.getOutputStream());
+        return true;
     }
     static void disconnect() throws IOException {
         conn.close();
+        conn=null;
+        radio=null;
     }
 
     //Updates some values from the radio and writes them back to the GUI.
-    public static void update() throws IOException {
+    public static void updateCAT() throws IOException {
         freqa=radio.getFrequency();
         freqb=radio.getFrequencyB();
 

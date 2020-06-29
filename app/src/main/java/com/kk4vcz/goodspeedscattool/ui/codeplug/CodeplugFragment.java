@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kk4vcz.goodspeedscattool.R;
 
 public class CodeplugFragment extends Fragment {
@@ -35,6 +37,18 @@ public class CodeplugFragment extends Fragment {
         });
         */
         final RecyclerView rv = root.findViewById(R.id.memlist);
+
+
+
+        FloatingActionButton fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "This will control the connection someday.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
 
 
         return root;
