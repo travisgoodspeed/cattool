@@ -27,27 +27,20 @@ import com.kk4vcz.goodspeedscattool.RadioTask;
 import java.io.IOException;
 
 public class RadioTask extends AsyncTask {
-    long freq;
-    long freqb;
-
     @Override
     protected Object doInBackground(Object[] objects) {
         /* Hardcoding this until it begins to work. */
 
         try {
-            RadioConnection conn = TCPConnection.getConnection("192.168.1.5:54321");
-            CATRadio radio=new TMD710G(conn.getInputStream(), conn.getOutputStream());
-            for(int i=0; i<20; i++)
-                radio.getID();
-            freq=radio.getFrequency();
-            freqb=radio.getFrequencyB();
-
+            RadioState.connect("d710", "192.168.1.5:54321");
+            RadioState.update();
         }catch(IOException e){
             e.printStackTrace();
             Log.e("RADIORESULT", e.getMessage());
         }
 
-        return String.format("%d %d\n", freq, freqb);
+
+        return String.format("VFOA=%d\n", RadioState.freqa);
     }
 
     @Override
