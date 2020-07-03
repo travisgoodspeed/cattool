@@ -13,4 +13,14 @@
         <item>d710</item>
         <item>991a</item>
     </string-array>
+
+    <string-array name="conn_entries">
+        <item>Bluetooth</item>
+        <item>TCP/IP</item>
+    </string-array>
+
+    <string-array name="conn_values">
+        <item>bt</item>
+        <item>tcp</item>
+    </string-array>
 </resources>

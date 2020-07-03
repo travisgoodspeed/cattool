@@ -16,6 +16,7 @@
 
     <!-- Messages Preferences -->
     <string name="radio_title">Radio Model</string>
+    <string name="conn_title">Radio Connection</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>

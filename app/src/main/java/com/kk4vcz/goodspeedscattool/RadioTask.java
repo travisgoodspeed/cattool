@@ -26,11 +26,15 @@ public class RadioTask extends AsyncTask {
              * This works reasonably well for TCP, but it might not work well for RFCOMM,
              * in which case we'll move to longer lived connections.
              */
+            Log.v("RADIORESULT", "Connecting");
             if(RadioState.connect("d710", "192.168.1.5:54321")) {
+                Log.v("RADIORESULT", "Connected, grabbing CAT.");
                 RadioState.updateCAT();
                 RadioState.drawback();
-                RadioState.downloadCodeplug();
+                Log.v("RADIORESULT", "Grabbing codeplug.");
+                //RadioState.downloadCodeplug();
                 RadioState.drawback();
+                Log.v("RADIORESULT", "Disconnecting.");
                 RadioState.disconnect();
                 RadioState.drawback();
             }else{

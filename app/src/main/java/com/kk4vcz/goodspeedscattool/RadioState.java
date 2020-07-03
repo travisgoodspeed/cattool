@@ -48,7 +48,9 @@ public class RadioState {
 
     //Updates some values from the radio and writes them back to the GUI.
     public static void updateCAT() throws IOException {
+        Log.v("RADIORESULT", "Getting FreqA");
         freqa=radio.getFrequency();
+        Log.v("RADIORESULT", "Getting FreqB");
         freqb=radio.getFrequencyB();
     }
 

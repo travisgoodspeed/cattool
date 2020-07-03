@@ -15,6 +15,25 @@
             app:title="@string/radio_title"
             app:useSimpleSummaryProvider="true" />
 
+        <!-- Are we using TCP/IP or Bluetooth? -->
+        <ListPreference
+            app:defaultValue="bt"
+            app:entries="@array/conn_entries"
+            app:entryValues="@array/conn_values"
+            app:key="conn"
+            app:title="@string/conn_title"
+            app:useSimpleSummaryProvider="true" />
+
+
+        <!-- For Bluetooth connections, should be hidden in TCP/IP mode. -->
+        <!-- The list is populated by the paired bluetooth devices from Android. -->
+        <ListPreference
+            app:defaultValue="bt"
+            app:key="btdevices"
+            app:title="BT Device"
+            app:useSimpleSummaryProvider="true" />
+
+        <!--For TCP connections, should be hidden in BT mode. -->
         <EditTextPreference
             app:key="server"
             app:title="Server Hostname"
