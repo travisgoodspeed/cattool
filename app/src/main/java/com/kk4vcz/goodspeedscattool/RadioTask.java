@@ -6,6 +6,8 @@ package com.kk4vcz.goodspeedscattool;
  * ham radios are often slow about returning any data back to the host.  So this class
  * acts as a sort of buffer to perform transactions in the background and then later
  * fetch their results to the GUI.
+ *
+ * In general, we try to queue up background tasks to update RadioState, while
  */
 
 import android.os.AsyncTask;
@@ -20,9 +22,17 @@ public class RadioTask extends AsyncTask {
         /* Hardcoding this until it begins to work. */
 
         try {
+            /* The current behavior is to tear down the socket and reconnect for each request.
+             * This works reasonably well for TCP, but it might not work well for RFCOMM,
+             * in which case we'll move to longer lived connections.
+             */
             if(RadioState.connect("d710", "192.168.1.5:54321")) {
                 RadioState.updateCAT();
+                RadioState.drawback();
+                RadioState.downloadCodeplug();
+                RadioState.drawback();
                 RadioState.disconnect();
+                RadioState.drawback();
             }else{
                 Log.e("RADIORESULT", "Ignoring duplicate connection request.");
             }

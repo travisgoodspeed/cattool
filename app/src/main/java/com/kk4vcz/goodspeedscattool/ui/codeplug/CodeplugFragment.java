@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kk4vcz.goodspeedscattool.R;
+import com.kk4vcz.goodspeedscattool.RadioState;
 
 public class CodeplugFragment extends Fragment {
 
@@ -27,6 +28,7 @@ public class CodeplugFragment extends Fragment {
                 ViewModelProviders.of(this).get(CodeplugViewModel.class);
         View root = inflater.inflate(R.layout.fragment_codeplug, container, false);
 
+
         /*
         final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -36,9 +38,10 @@ public class CodeplugFragment extends Fragment {
             }
         });
         */
-        final RecyclerView rv = root.findViewById(R.id.memlist);
 
-
+        //final RecyclerView rv = root.findViewById(R.id.memlist);
+        final TextView tv = root.findViewById(R.id.txtCodeplug);
+        RadioState.textCodeplug=tv;
 
         FloatingActionButton fab = root.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -46,10 +49,12 @@ public class CodeplugFragment extends Fragment {
             public void onClick(View view) {
                 Snackbar.make(view, "This will control the connection someday.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                RadioState.drawback();
             }
         });
 
-
+        //Draw the results when we load.
+        RadioState.drawback();
 
         return root;
     }

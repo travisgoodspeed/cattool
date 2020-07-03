@@ -1,8 +1,11 @@
 package com.kk4vcz.goodspeedscattool;
 
+import android.util.Log;
 import android.widget.TextView;
 
 import com.kk4vcz.codeplug.CATRadio;
+import com.kk4vcz.codeplug.Channel;
+import com.kk4vcz.codeplug.Main;
 import com.kk4vcz.codeplug.RadioConnection;
 import com.kk4vcz.codeplug.connections.TCPConnection;
 import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
@@ -20,12 +23,12 @@ public class RadioState {
     static RadioConnection conn=null;
     static CATRadio radio=null;
 
-    static CatFragment catfragment=null;
-    static CodeplugFragment codeplugFragment=null;
     static MainActivity mainActivity=null;
 
     public static long freqa=0, freqb=0;
     public static TextView textFreqa=null;
+    public static TextView textCodeplug=null;
+
 
 
     static boolean connect(String driver, String path) throws IOException {
@@ -47,15 +50,30 @@ public class RadioState {
     public static void updateCAT() throws IOException {
         freqa=radio.getFrequency();
         freqb=radio.getFrequencyB();
+    }
 
-        drawback();
+    static String codeplugdump=""; //TODO More than just a string.
+    //Downloads the codeplug from the radio.
+    public static void downloadCodeplug() throws IOException{
+        codeplugdump="";
+        for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
+            Channel c = radio.readChannel(i);
+            if (c != null) {
+                Log.e("RadioState", Main.RenderChannel(c));
+                codeplugdump+=Main.RenderChannel(c)+"\n";
+            }
+        }
     }
 
     //Draws that current state back to the UI fragments.  Call from any thread.
-    private static void drawback(){
+    public static void drawback(){
         mainActivity.runOnUiThread(new Runnable(){
             public void run(){
                 textFreqa.setText(String.format("%d\n%d",freqa,freqb));
+                if(textCodeplug!=null)
+                    textCodeplug.setText(codeplugdump);
+                else
+                    Log.e("RADIOSTATE", "Refusing to display codeplug on a null pointer.");
             }
         });
     }

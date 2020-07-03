@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.kk4vcz.goodspeedscattool.R;
+import com.kk4vcz.goodspeedscattool.RadioState;
 
 public class CatFragment extends Fragment {
 
@@ -34,6 +35,9 @@ public class CatFragment extends Fragment {
             }
         });
         */
+
+        //Draw the results when we load.
+        RadioState.drawback();
 
         return root;
     }
