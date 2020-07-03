@@ -38,7 +38,8 @@ public class HomeFragment extends Fragment {
          */
         RadioState.textFreqa=textView;
 
-
+        //Make sure the preferences are up to date before executing it in another thread.
+        RadioState.updatePreferences();
         final Button connect = root.findViewById(R.id.but_connect);
         connect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

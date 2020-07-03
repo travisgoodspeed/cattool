@@ -35,7 +35,7 @@
 
         <!--For TCP connections, should be hidden in BT mode. -->
         <EditTextPreference
-            app:key="server"
+            app:key="hostname"
             app:title="Server Hostname"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference

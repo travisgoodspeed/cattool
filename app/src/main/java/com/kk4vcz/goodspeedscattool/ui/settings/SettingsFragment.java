@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -17,7 +18,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-
         //Load preferences from XML.
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
@@ -67,4 +67,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         }
     }
+
+
 }

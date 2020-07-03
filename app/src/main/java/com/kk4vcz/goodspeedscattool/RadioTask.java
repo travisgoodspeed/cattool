@@ -27,7 +27,7 @@ public class RadioTask extends AsyncTask {
              * in which case we'll move to longer lived connections.
              */
             Log.v("RADIORESULT", "Connecting");
-            if(RadioState.connect("d710", "192.168.1.5:54321")) {
+            if(RadioState.connect()) {
                 Log.v("RADIORESULT", "Connected, grabbing CAT.");
                 RadioState.updateCAT();
                 RadioState.drawback();
