@@ -61,9 +61,23 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     btDevicesList.setEntryValues(entryvalues);
                 }else{
                     Log.e("Settings", "No devices are paired.");
+                    CharSequence[] entries=new CharSequence[1];
+                    CharSequence[] entryvalues=new CharSequence[1];
+                    entries[0]="none";
+                    entryvalues[0]="none";
+
+                    btDevicesList.setEntries(entries);
+                    btDevicesList.setEntryValues(entryvalues);
                 }
             }else{
                 Log.e("Settings", "BT is disabled.");
+                CharSequence[] entries=new CharSequence[1];
+                CharSequence[] entryvalues=new CharSequence[1];
+                entries[0]="disabled";
+                entryvalues[0]="disabled";
+
+                btDevicesList.setEntries(entries);
+                btDevicesList.setEntryValues(entryvalues);
             }
         }
     }
