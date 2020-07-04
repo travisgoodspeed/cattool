@@ -41,6 +41,7 @@ public class BTConnection implements RadioConnection {
                         if(deviceHardwareAddress.equals(adr)){
                             Log.v("BTConnect", String.format("Connecting to %s at %s", deviceName, deviceHardwareAddress));
                             BluetoothSocket socket=device.createRfcommSocketToServiceRecord(DEVICE_UUID);
+
                             return new BTConnection(socket);
                         }
                     }
