@@ -32,7 +32,7 @@ public class RadioTask extends AsyncTask {
                 RadioState.updateCAT();
                 RadioState.drawback();
                 Log.v("RADIORESULT", "Grabbing codeplug.");
-                //RadioState.downloadCodeplug();
+                RadioState.downloadCodeplug();
                 RadioState.drawback();
                 Log.v("RADIORESULT", "Disconnecting.");
                 RadioState.disconnect();

@@ -50,6 +50,8 @@ public class RadioState {
         //TODO Support bluetooth drivers.
         if(pref_conn.equals("tcp")) {
             conn = TCPConnection.getConnection(String.format("%s:%d", pref_hostname, pref_port));
+        }else if(pref_conn.equals("bt")) {
+            conn = BTConnection.getConnection(pref_btdev);
         }else{
             Log.e("RadioState", String.format("Unknown connection type: %s", pref_conn));
             return false;
