@@ -72,7 +72,9 @@ public class RadioState {
         return true;
     }
     static void disconnect() throws IOException {
-        conn.close();
+        //If we've failed to connect, conn will already be null.
+        if(conn!=null)
+            conn.close();
         conn=null;
         radio=null;
     }
