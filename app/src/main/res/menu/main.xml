@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    -->
+    <item
+        android:id="@+id/action_importcodeplug"
+        android:orderInCategory="100"
+        android:title="Import Codeplug"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_exportcodeplug"
+        android:orderInCategory="100"
+        android:title="Export Codeplug"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_downloadcodeplug"
+        android:orderInCategory="100"
+        android:title="Download Codeplug"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_uploadcodeplug"
+        android:orderInCategory="100"
+        android:title="Upload Codeplug"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_erasetargetcodeplug"
+        android:orderInCategory="100"
+        android:title="Erase Target Codeplug"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_emptylocalcodeplug"
+        android:orderInCategory="100"
+        android:title="Empty Local Codeplug"
+        app:showAsAction="never" />
+
 </menu>

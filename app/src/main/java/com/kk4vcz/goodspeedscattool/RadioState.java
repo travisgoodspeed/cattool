@@ -94,8 +94,11 @@ public class RadioState {
         for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
             Channel c = radio.readChannel(i);
             if (c != null) {
-                Log.e("RadioState", Main.RenderChannel(c));
+                Log.v("RadioState", Main.RenderChannel(c));
                 codeplugdump+=Main.RenderChannel(c)+"\n";
+            }
+            if(i%10==0){
+                RadioState.drawback();
             }
         }
     }

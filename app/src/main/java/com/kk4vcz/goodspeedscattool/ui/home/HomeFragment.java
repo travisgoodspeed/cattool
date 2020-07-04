@@ -22,8 +22,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
 
@@ -43,7 +42,7 @@ public class HomeFragment extends Fragment {
         final Button connect = root.findViewById(R.id.but_connect);
         connect.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                RadioTask asyncTask=new RadioTask();
+                RadioTask asyncTask=RadioTask.newCatTask();
                 asyncTask.execute();
             }
         });

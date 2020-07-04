@@ -3,6 +3,8 @@ package com.kk4vcz.goodspeedscattool;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
@@ -54,6 +56,35 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_importcodeplug:
+
+                return true;
+            case R.id.action_exportcodeplug:
+
+                return true;
+            case R.id.action_downloadcodeplug:
+                //TODO: This takes a while.  It should have a progress bar.
+                RadioTask asyncTask=RadioTask.newDownloadCodeplugTask();
+                asyncTask.execute();
+                return true;
+            case R.id.action_uploadcodeplug:
+
+                return true;
+            case R.id.action_emptylocalcodeplug:
+
+                return true;
+            case R.id.action_erasetargetcodeplug:
+
+                return true;
+            default:
+                Log.e("Menu", "Unhandled menu item.");
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

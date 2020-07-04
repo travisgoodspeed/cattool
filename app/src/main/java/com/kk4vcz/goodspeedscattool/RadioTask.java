@@ -17,6 +17,24 @@ import android.util.Log;
 import java.io.IOException;
 
 public class RadioTask extends AsyncTask {
+    public static RadioTask newCatTask(){
+        RadioTask rt=new RadioTask();
+        return rt;
+    }
+    public static RadioTask newDownloadCodeplugTask(){
+        RadioTask rt=new RadioTask();
+        rt.downloadcodeplug=true;
+        return rt;
+    }
+
+
+    boolean updatecat=true;
+    boolean downloadcodeplug=false;
+    boolean uploadcodeplug=false;
+    boolean erasetarget=false;
+    boolean drawback=true;
+
+
     @Override
     protected Object doInBackground(Object[] objects) {
         /* Hardcoding this until it begins to work. */
@@ -28,12 +46,16 @@ public class RadioTask extends AsyncTask {
              */
             Log.v("RADIORESULT", "Connecting");
             if(RadioState.connect()) {
-                Log.v("RADIORESULT", "Connected, grabbing CAT.");
-                RadioState.updateCAT();
-                RadioState.drawback();
-                Log.v("RADIORESULT", "Grabbing codeplug.");
-                RadioState.downloadCodeplug();
-                RadioState.drawback();
+                Log.v("RADIORESULT", "Connected");
+
+                if(updatecat) {
+                    RadioState.updateCAT();
+                }
+                if(downloadcodeplug) {
+                    Log.v("RADIORESULT", "Grabbing codeplug.");
+                    RadioState.downloadCodeplug();
+                }
+
                 Log.v("RADIORESULT", "Disconnecting.");
                 RadioState.disconnect();
                 RadioState.drawback();
