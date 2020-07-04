@@ -26,6 +26,17 @@ public class RadioTask extends AsyncTask {
         rt.downloadcodeplug=true;
         return rt;
     }
+    public static RadioTask newUploadCodeplugTask(){
+        RadioTask rt=new RadioTask();
+        rt.uploadcodeplug=true;
+        return rt;
+    }
+    public static RadioTask newEraseTargetCodeplugTask(){
+        RadioTask rt=new RadioTask();
+        rt.erasetarget=true;
+        return rt;
+    }
+
 
 
     boolean updatecat=true;
@@ -51,14 +62,18 @@ public class RadioTask extends AsyncTask {
                 if(updatecat) {
                     RadioState.updateCAT();
                 }
-                if(downloadcodeplug) {
-                    Log.v("RADIORESULT", "Grabbing codeplug.");
+                if(downloadcodeplug)
                     RadioState.downloadCodeplug();
-                }
+                if(erasetarget)
+                    RadioState.eraseTargetCodeplug();
+                if(uploadcodeplug)
+                    RadioState.uploadCodeplug();
+
 
                 Log.v("RADIORESULT", "Disconnecting.");
                 RadioState.disconnect();
-                RadioState.drawback();
+                if(drawback)
+                    RadioState.drawback();
             }else{
                 Log.e("RADIORESULT", "Ignoring duplicate connection request.");
             }

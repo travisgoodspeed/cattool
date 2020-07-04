@@ -19,7 +19,8 @@ import com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugFragment;
 import java.io.IOException;
 
 /*
- * This class managed the radio connection and other variables.
+ * This class manages the radio connection and other variables.  Many of its methods can't be
+ * called from the GUI thread, so use RadioTask tasks to take care of scheduling the real work.
  */
 
 public class RadioState {
@@ -28,7 +29,11 @@ public class RadioState {
 
     static MainActivity mainActivity=null;
 
+    //Local copies of radio variables save us from unneeded comm delays.
     public static long freqa=0, freqb=0;
+    public static Channel[] channels=new Channel[1000];
+
+    //GUI elements can only be written in the GUI thread.
     public static TextView textFreqa=null;
     public static TextView textCodeplug=null;
 
@@ -93,8 +98,9 @@ public class RadioState {
         codeplugdump="";
         for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
             Channel c = radio.readChannel(i);
+            channels[i]=c;
             if (c != null) {
-                Log.v("RadioState", Main.RenderChannel(c));
+                Log.v("RadioStateDownload", Main.RenderChannel(c));
                 codeplugdump+=Main.RenderChannel(c)+"\n";
             }
             if(i%10==0){
@@ -102,13 +108,44 @@ public class RadioState {
             }
         }
     }
+    //Uploads the codeplug to the radio.
+    public static void uploadCodeplug() throws IOException{
+        for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
+            Channel c = channels[i];
+            if (c != null) {
+                Log.v("RadioStateUpload", Main.RenderChannel(c));
+                radio.writeChannel(i, c);
+            }
+            if(i%10==0){
+                RadioState.drawback();
+            }
+        }
+    }
+    //Erases the radio's channels.
+    public static void eraseTargetCodeplug() throws IOException{
+        for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
+            Log.v("RadioStateEraseTargetChannel", "Erasing "+i);
+            radio.deleteChannel(i);
+
+            if(i%10==0){
+                RadioState.drawback();
+            }
+        }
+    }
+    //Erases the local channels.
+    public static void eraseLocalCodeplug() throws IOException{
+        for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
+            Log.v("RadioStateEraseLocalChannel", "Erasing "+i);
+            channels[i]=null;
+        }
+        RadioState.drawback();
+    }
 
     //Updates the preferences.
     public static void updatePreferences(){
         /* Here we grab the strings from the app's preferences, so that we know what to connect
          * to when it comes time for that.
          */
-
         pref_conn=preferences.getString("conn", "tcp");
         pref_btdev=preferences.getString("btdevices", "");
         pref_hostname=preferences.getString("hostname", "");

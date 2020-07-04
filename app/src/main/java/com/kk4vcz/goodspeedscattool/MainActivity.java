@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        RadioTask asyncTask;
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_importcodeplug:
@@ -69,17 +70,21 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_downloadcodeplug:
                 //TODO: This takes a while.  It should have a progress bar.
-                RadioTask asyncTask=RadioTask.newDownloadCodeplugTask();
+                asyncTask=RadioTask.newDownloadCodeplugTask();
                 asyncTask.execute();
                 return true;
             case R.id.action_uploadcodeplug:
-
+                //TODO: This takes a while.  It should have a progress bar.
+                asyncTask=RadioTask.newUploadCodeplugTask();
+                asyncTask.execute();
                 return true;
             case R.id.action_emptylocalcodeplug:
 
                 return true;
             case R.id.action_erasetargetcodeplug:
-
+                //TODO: This takes a while.  It should have a progress bar.
+                asyncTask=RadioTask.newEraseTargetCodeplugTask();
+                asyncTask.execute();
                 return true;
             default:
                 Log.e("Menu", "Unhandled menu item.");
