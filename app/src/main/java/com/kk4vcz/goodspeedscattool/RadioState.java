@@ -12,6 +12,7 @@ import com.kk4vcz.codeplug.connections.TCPConnection;
 import com.kk4vcz.codeplug.radios.kenwood.THD72;
 import com.kk4vcz.codeplug.radios.kenwood.THD74;
 import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
+import com.kk4vcz.codeplug.radios.yaesu.FT991A;
 import com.kk4vcz.goodspeedscattool.ui.cat.CatFragment;
 import com.kk4vcz.goodspeedscattool.ui.cat.CatViewModel;
 import com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugFragment;
@@ -66,8 +67,10 @@ public class RadioState {
             radio=new THD74(conn.getInputStream(), conn.getOutputStream());
         }else if(pref_device.equals("d72")){
             radio=new THD72(conn.getInputStream(), conn.getOutputStream());
-        }else if(pref_device.equals("d710")){
-            radio=new TMD710G(conn.getInputStream(), conn.getOutputStream());
+        }else if(pref_device.equals("d710")) {
+            radio = new TMD710G(conn.getInputStream(), conn.getOutputStream());
+        }else if(pref_device.equals("991a")) {
+            radio = new FT991A(conn.getInputStream(), conn.getOutputStream());
         }else{
             Log.e("RadioState", String.format("Unknown radio type: %s", pref_device));
             return false;
