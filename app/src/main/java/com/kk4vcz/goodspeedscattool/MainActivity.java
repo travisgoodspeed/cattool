@@ -61,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == rcImportCodeplug && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
-            RadioState.drawbackstring("Got file "+selectedfile);
+            RadioState.drawbackstring("Got file "+selectedfile.getPath());
         }else if(requestCode == rcExportCodeplug && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
-            RadioState.drawbackstring("Writing to file "+selectedfile);
+            RadioState.drawbackstring("Writing to file "+selectedfile.getPath());
         }
     }
 

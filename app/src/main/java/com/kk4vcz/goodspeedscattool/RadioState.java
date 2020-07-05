@@ -15,6 +15,7 @@ import com.kk4vcz.codeplug.connections.TCPConnection;
 import com.kk4vcz.codeplug.radios.kenwood.THD72;
 import com.kk4vcz.codeplug.radios.kenwood.THD74;
 import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
+import com.kk4vcz.codeplug.radios.other.ChirpCSV;
 import com.kk4vcz.codeplug.radios.yaesu.FT991A;
 import com.kk4vcz.goodspeedscattool.ui.cat.CatFragment;
 import com.kk4vcz.goodspeedscattool.ui.cat.CatViewModel;
@@ -35,7 +36,7 @@ public class RadioState {
 
     //Local copies of radio variables save us from unneeded comm delays.
     public static long freqa=0, freqb=0;
-    public static Channel[] channels=new Channel[1000];
+    public static ChirpCSV csvradio=new ChirpCSV();
 
     //GUI elements can only be written in the GUI thread.
     public static TextView textFreqa=null;
@@ -107,10 +108,11 @@ public class RadioState {
         RadioState.drawbackstring(String.format("Downloading channels from radio."));
         for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
             Channel c = radio.readChannel(i);
-            channels[i]=c;
+            csvradio.deleteChannel(i); //Might rewrite it in just a jiffy.
             if (c != null) {
                 Log.v("RadioStateDownload", Main.RenderChannel(c));
                 codeplugdump+=Main.RenderChannel(c)+"\n";
+                csvradio.writeChannel(i, c);
                 count++;
             }
             if(i%10==0){
@@ -125,7 +127,7 @@ public class RadioState {
         int count=0;
         RadioState.drawbackstring(String.format("Uploading channels to radio."));
         for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
-            Channel c = channels[i];
+            Channel c = csvradio.readChannel(i);
             if (c != null) {
                 Log.v("RadioStateUpload", Main.RenderChannel(c));
                 radio.writeChannel(i, c);
@@ -154,7 +156,7 @@ public class RadioState {
     //Erases the local channels.
     public static void eraseLocalCodeplug() throws IOException {
         for (int i = 0; i < 1000; i++) {
-            channels[i]=null;
+            csvradio.deleteChannel(i);
         }
         codeplugdump="";
         RadioState.drawback(100);
