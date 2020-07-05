@@ -2,6 +2,7 @@ package com.kk4vcz.goodspeedscattool;
 
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -175,6 +176,9 @@ public class RadioState {
                 else
                     Log.e("RADIOSTATE", "Refusing to display codeplug on a null pointer.");
                 progressBar.setProgress(progress);
+
+                progressBar.setVisibility(progress<100 ? View.VISIBLE : View.INVISIBLE);
+
 
             }
         });
