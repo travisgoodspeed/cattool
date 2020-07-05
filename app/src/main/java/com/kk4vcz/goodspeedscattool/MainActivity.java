@@ -10,6 +10,7 @@ import android.view.Menu;
 
 
 import com.google.android.material.navigation.NavigationView;
+import com.kk4vcz.codeplug.radios.other.ChirpCSV;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -19,7 +20,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -61,10 +67,35 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == rcImportCodeplug && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
-            RadioState.drawbackstring("Got file "+selectedfile.getPath());
+
+            try {
+                InputStream in=getContentResolver().openInputStream(selectedfile);
+                RadioState.csvradio=new ChirpCSV(in);
+                in.close();
+
+                RadioState.drawback(100);
+                RadioState.drawbackstring("Loaded "+selectedfile.getPath());
+            }catch(IOException e){
+                Log.e("ImportCodeplug","Error reading file", e);
+                RadioState.csvradio=new ChirpCSV();
+                RadioState.drawbackstring("Failed to load "+selectedfile.getPath());
+            }
+
         }else if(requestCode == rcExportCodeplug && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
-            RadioState.drawbackstring("Writing to file "+selectedfile.getPath());
+
+            try {
+                OutputStream out=getContentResolver().openOutputStream(selectedfile);
+                RadioState.csvradio.exportToOutputStream(out);
+                out.close();
+
+                RadioState.drawback(100);
+                RadioState.drawbackstring("Wrote "+selectedfile.getPath());
+            }catch(IOException e){
+                Log.e("ImportCodeplug","Error reading file", e);
+                RadioState.csvradio=new ChirpCSV();
+                RadioState.drawbackstring("Failed to load "+selectedfile.getPath());
+            }
         }
     }
 
@@ -84,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
                 //File open dialog
                 Intent openintent = new Intent()
                         .setType("*/*")
-                        .setAction(Intent.ACTION_OPEN_DOCUMENT);
+                        //.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                        .setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(openintent, "Select a Codeplug"), rcImportCodeplug);
                 return true;
             case R.id.action_exportcodeplug:
