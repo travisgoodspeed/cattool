@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.kk4vcz.codeplug.CATRadio;
 import com.kk4vcz.codeplug.Channel;
 import com.kk4vcz.codeplug.Main;
@@ -101,33 +102,41 @@ public class RadioState {
     static String codeplugdump=""; //TODO More than just a string.
     //Downloads the codeplug from the radio.
     public static void downloadCodeplug() throws IOException{
+        int count=0;
         codeplugdump="";
+        RadioState.drawbackstring(String.format("Downloading channels from radio."));
         for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
             Channel c = radio.readChannel(i);
             channels[i]=c;
             if (c != null) {
                 Log.v("RadioStateDownload", Main.RenderChannel(c));
                 codeplugdump+=Main.RenderChannel(c)+"\n";
+                count++;
             }
             if(i%10==0){
                 RadioState.drawback(i/10);
             }
         }
         RadioState.drawback(100);
+        RadioState.drawbackstring(String.format("Downloaded %d channels.",count));
     }
     //Uploads the codeplug to the radio.
     public static void uploadCodeplug() throws IOException{
+        int count=0;
+        RadioState.drawbackstring(String.format("Uploading channels to radio."));
         for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
             Channel c = channels[i];
             if (c != null) {
                 Log.v("RadioStateUpload", Main.RenderChannel(c));
                 radio.writeChannel(i, c);
+                count++;
             }
             if(i%10==0){
                 RadioState.drawback(i/10);
             }
         }
         RadioState.drawback(100);
+        RadioState.drawbackstring(String.format("Uploaded %d channels.",count));
     }
     //Erases the radio's channels.
     public static void eraseTargetCodeplug() throws IOException{
@@ -140,13 +149,16 @@ public class RadioState {
             }
         }
         RadioState.drawback(100);
+        RadioState.drawbackstring("Erased radio's channels.");
     }
     //Erases the local channels.
-    public static void eraseLocalCodeplug() throws IOException{
-        for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
-            Log.v("RadioStateEraseLocalChannel", "Erasing "+i);
+    public static void eraseLocalCodeplug() throws IOException {
+        for (int i = 0; i < 1000; i++) {
             channels[i]=null;
         }
+        codeplugdump="";
+        RadioState.drawback(100);
+        RadioState.drawbackstring("Erased phone's channels.");
     }
 
     //Updates the preferences.
@@ -178,8 +190,28 @@ public class RadioState {
                 progressBar.setProgress(progress);
 
                 progressBar.setVisibility(progress<100 ? View.VISIBLE : View.INVISIBLE);
+            }
+        });
+    }
 
 
+
+    //Draws that current state back to the UI fragments.  Call from any thread.
+    public static void drawbackstring(final String message){
+        mainActivity.runOnUiThread(new Runnable(){
+            public void run(){
+                try {
+                    View view=mainActivity.findViewById(android.R.id.content);
+                    if (view != null)
+                        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                }catch(IllegalArgumentException e){
+                    /* Sometimes the View isn't the current view, causing the snackbar creation
+                     * to fail.  No biggie, because this is just an informational message, but
+                     * we need to catch the exception to prevent a crash.
+                     */
+                    Log.e("RadioState","drawbackString", e);
+                }
             }
         });
     }
