@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.kk4vcz.codeplug.CATRadio;
+import com.kk4vcz.codeplug.CSVChannel;
 import com.kk4vcz.codeplug.Channel;
 import com.kk4vcz.codeplug.Main;
 import com.kk4vcz.codeplug.RadioConnection;
@@ -100,18 +101,17 @@ public class RadioState {
         freqb=radio.getFrequencyB();
     }
 
-    static String codeplugdump=""; //TODO More than just a string.
+
     //Downloads the codeplug from the radio.
     public static void downloadCodeplug() throws IOException{
         int count=0;
-        codeplugdump="";
+
         RadioState.drawbackstring(String.format("Downloading channels from radio."));
         for (int i = radio.getChannelMin(); i <= radio.getChannelMax(); i++) {
             Channel c = radio.readChannel(i);
             csvradio.deleteChannel(i); //Might rewrite it in just a jiffy.
             if (c != null) {
                 Log.v("RadioStateDownload", Main.RenderChannel(c));
-                codeplugdump+=Main.RenderChannel(c)+"\n";
                 csvradio.writeChannel(i, c);
                 count++;
             }
@@ -158,7 +158,6 @@ public class RadioState {
         for (int i = 0; i < 1000; i++) {
             csvradio.deleteChannel(i);
         }
-        codeplugdump="";
         RadioState.drawback(100);
         RadioState.drawbackstring("Erased phone's channels.");
     }
@@ -185,9 +184,33 @@ public class RadioState {
         mainActivity.runOnUiThread(new Runnable(){
             public void run(){
                 textFreqa.setText(String.format("%d\n%d",freqa,freqb));
-                if(textCodeplug!=null)
+                if(textCodeplug!=null) {
+                    String codeplugdump="";
+
+                    try {
+                        for (int i = csvradio.getChannelMin(); i <= csvradio.getChannelMax(); i++) {
+                            Channel ch = csvradio.readChannel(i);
+                            if(ch!=null) {
+                                int index=ch.getIndex();
+                                String name=ch.getName();
+                                if(name==null)
+                                    name="";
+                                double frequency=ch.getRXFrequency()/1000000.0;
+
+                                //Split dir as one letter.
+                                String splitdir=ch.getSplitDir();
+                                if(splitdir.equals("split"))
+                                    splitdir="s";
+
+                                codeplugdump += String.format("%03d %17s %03.03f%1s\n", index, name, frequency, splitdir);
+                            }
+                        }
+                    }catch(IOException e){
+
+                    }
+
                     textCodeplug.setText(codeplugdump);
-                else
+                }else
                     Log.e("RADIOSTATE", "Refusing to display codeplug on a null pointer.");
                 progressBar.setProgress(progress);
 
