@@ -1,5 +1,7 @@
 package com.kk4vcz.goodspeedscattool;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -51,6 +53,22 @@ public class MainActivity extends AppCompatActivity {
         RadioState.updatePreferences();
     }
 
+    final int rcImportCodeplug=123;
+    final int rcExportCodeplug=124;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == rcImportCodeplug && resultCode == RESULT_OK) {
+            Uri selectedfile = data.getData(); //The uri with the location of the file
+            RadioState.drawbackstring("Got file "+selectedfile);
+        }else if(requestCode == rcExportCodeplug && resultCode == RESULT_OK) {
+            Uri selectedfile = data.getData(); //The uri with the location of the file
+            RadioState.drawbackstring("Writing to file "+selectedfile);
+        }
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -63,10 +81,18 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_importcodeplug:
-
+                //File open dialog
+                Intent openintent = new Intent()
+                        .setType("*/*")
+                        .setAction(Intent.ACTION_OPEN_DOCUMENT);
+                startActivityForResult(Intent.createChooser(openintent, "Select a Codeplug"), rcImportCodeplug);
                 return true;
             case R.id.action_exportcodeplug:
-
+                //File create dialog
+                Intent createintent = new Intent()
+                        .setType("*/*")
+                        .setAction(Intent.ACTION_CREATE_DOCUMENT);
+                startActivityForResult(Intent.createChooser(createintent, "Export a Codeplug"), rcExportCodeplug);
                 return true;
             case R.id.action_downloadcodeplug:
                 asyncTask=RadioTask.newDownloadCodeplugTask();
