@@ -20,27 +20,27 @@
     <ScrollView
         android:layout_width="409dp"
         android:layout_height="657dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/fab"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txtCodeplug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtCodeplug"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:textSize="12sp" />
-        </LinearLayout>
+            android:layout_marginBottom="0dp"
+            android:fontFamily="monospace"
+            android:textAlignment="viewStart"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </ScrollView>
 
     <!--

@@ -201,6 +201,8 @@ public class RadioState {
                                 String splitdir=ch.getSplitDir();
                                 if(splitdir.equals("split"))
                                     splitdir="s";
+                                if(splitdir.equals("off"))
+                                    splitdir=" ";
 
                                 //Tone mode and Tone.
                                 String tonemode=ch.getToneMode();
