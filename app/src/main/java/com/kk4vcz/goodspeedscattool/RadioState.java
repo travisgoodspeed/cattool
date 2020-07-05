@@ -202,7 +202,20 @@ public class RadioState {
                                 if(splitdir.equals("split"))
                                     splitdir="s";
 
-                                codeplugdump += String.format("%03d %17s %03.03f%1s\n", index, name, frequency, splitdir);
+                                //Tone mode and Tone.
+                                String tonemode=ch.getToneMode();
+                                if(tonemode.equals("tone"))
+                                    tonemode="t";
+                                String tone=String.format("%2s%05.1f", tonemode, ch.getToneFreq()/10.0);
+
+                                if(tonemode.equals("dcs"))
+                                    tone=String.format("dcs %03d",ch.getDTCSCode());
+                                if(tonemode.equals(""))
+                                    tone="";
+
+
+
+                                codeplugdump += String.format("%03d %17s %03.03f%1s %8s\n", index, name, frequency, splitdir, tone);
                             }
                         }
                     }catch(IOException e){
