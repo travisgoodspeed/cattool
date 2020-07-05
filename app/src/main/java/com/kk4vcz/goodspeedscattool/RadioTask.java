@@ -73,7 +73,7 @@ public class RadioTask extends AsyncTask {
                 Log.v("RADIORESULT", "Disconnecting.");
                 RadioState.disconnect();
                 if(drawback)
-                    RadioState.drawback();
+                    RadioState.drawback(100);
             }else{
                 Log.e("RADIORESULT", "Ignoring duplicate connection request.");
             }

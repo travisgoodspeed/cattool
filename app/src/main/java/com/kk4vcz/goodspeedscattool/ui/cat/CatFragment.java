@@ -37,7 +37,7 @@ public class CatFragment extends Fragment {
         */
 
         //Draw the results when we load.
-        RadioState.drawback();
+        RadioState.drawback(100);
 
         return root;
     }

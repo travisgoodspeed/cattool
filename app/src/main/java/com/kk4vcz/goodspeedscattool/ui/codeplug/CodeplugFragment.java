@@ -49,12 +49,12 @@ public class CodeplugFragment extends Fragment {
             public void onClick(View view) {
                 Snackbar.make(view, "This will control the connection someday.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                RadioState.drawback();
+                RadioState.drawback(100);
             }
         });
 
         //Draw the results when we load.
-        RadioState.drawback();
+        RadioState.drawback(100);
 
         return root;
     }

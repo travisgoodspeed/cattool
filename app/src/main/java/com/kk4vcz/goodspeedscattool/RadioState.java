@@ -2,6 +2,7 @@ package com.kk4vcz.goodspeedscattool;
 
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.kk4vcz.codeplug.CATRadio;
@@ -37,6 +38,7 @@ public class RadioState {
     //GUI elements can only be written in the GUI thread.
     public static TextView textFreqa=null;
     public static TextView textCodeplug=null;
+    public static ProgressBar progressBar=null;
 
 
     //Preferences are managed in the GUI, then fetched after begin updated.
@@ -107,9 +109,10 @@ public class RadioState {
                 codeplugdump+=Main.RenderChannel(c)+"\n";
             }
             if(i%10==0){
-                RadioState.drawback();
+                RadioState.drawback(i/10);
             }
         }
+        RadioState.drawback(100);
     }
     //Uploads the codeplug to the radio.
     public static void uploadCodeplug() throws IOException{
@@ -120,9 +123,10 @@ public class RadioState {
                 radio.writeChannel(i, c);
             }
             if(i%10==0){
-                RadioState.drawback();
+                RadioState.drawback(i/10);
             }
         }
+        RadioState.drawback(100);
     }
     //Erases the radio's channels.
     public static void eraseTargetCodeplug() throws IOException{
@@ -131,9 +135,10 @@ public class RadioState {
             radio.deleteChannel(i);
 
             if(i%10==0){
-                RadioState.drawback();
+                RadioState.drawback(i/10);
             }
         }
+        RadioState.drawback(100);
     }
     //Erases the local channels.
     public static void eraseLocalCodeplug() throws IOException{
@@ -141,7 +146,6 @@ public class RadioState {
             Log.v("RadioStateEraseLocalChannel", "Erasing "+i);
             channels[i]=null;
         }
-        RadioState.drawback();
     }
 
     //Updates the preferences.
@@ -162,7 +166,7 @@ public class RadioState {
     }
 
     //Draws that current state back to the UI fragments.  Call from any thread.
-    public static void drawback(){
+    public static void drawback(final int progress){
         mainActivity.runOnUiThread(new Runnable(){
             public void run(){
                 textFreqa.setText(String.format("%d\n%d",freqa,freqb));
@@ -170,6 +174,8 @@ public class RadioState {
                     textCodeplug.setText(codeplugdump);
                 else
                     Log.e("RADIOSTATE", "Refusing to display codeplug on a null pointer.");
+                progressBar.setProgress(progress);
+
             }
         });
     }

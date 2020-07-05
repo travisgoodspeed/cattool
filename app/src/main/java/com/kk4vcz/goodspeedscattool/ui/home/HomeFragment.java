@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
         });
 
         //Draw the results when we load.
-        RadioState.drawback();
+        RadioState.drawback(100);
 
         return root;
     }
