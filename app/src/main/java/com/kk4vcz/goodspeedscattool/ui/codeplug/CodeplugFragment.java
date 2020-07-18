@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,15 +40,6 @@ public class CodeplugFragment extends Fragment {
         final TextView tv = root.findViewById(R.id.txtCodeplug);
         RadioState.textCodeplug=tv;
 
-        FloatingActionButton fab = root.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "This will control the connection someday.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                RadioState.drawback(100);
-            }
-        });
 
         //Draw the results when we load.
         RadioState.drawback(100);

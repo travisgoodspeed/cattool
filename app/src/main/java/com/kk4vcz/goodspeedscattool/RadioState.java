@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.kk4vcz.codeplug.CATRadio;
-import com.kk4vcz.codeplug.CSVChannel;
 import com.kk4vcz.codeplug.Channel;
 import com.kk4vcz.codeplug.Main;
 import com.kk4vcz.codeplug.RadioConnection;
@@ -18,9 +17,6 @@ import com.kk4vcz.codeplug.radios.kenwood.THD74;
 import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
 import com.kk4vcz.codeplug.radios.other.ChirpCSV;
 import com.kk4vcz.codeplug.radios.yaesu.FT991A;
-import com.kk4vcz.goodspeedscattool.ui.cat.CatFragment;
-import com.kk4vcz.goodspeedscattool.ui.cat.CatViewModel;
-import com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugFragment;
 
 import java.io.IOException;
 
