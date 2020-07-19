@@ -17,6 +17,7 @@ import com.kk4vcz.codeplug.radios.kenwood.THD74;
 import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
 import com.kk4vcz.codeplug.radios.other.ChirpCSV;
 import com.kk4vcz.codeplug.radios.yaesu.FT991A;
+import com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugViewAdapter;
 
 import java.io.IOException;
 
@@ -39,6 +40,7 @@ public class RadioState {
     public static TextView textFreqa=null;
     //public static TextView textCodeplug=null; //Removed for new codeplug view.
     public static ProgressBar progressBar=null;
+    public static CodeplugViewAdapter codeplugViewAdapter=null;
 
 
     //Preferences are managed in the GUI, then fetched after begin updated.
@@ -179,53 +181,14 @@ public class RadioState {
     public static void drawback(final int progress){
         mainActivity.runOnUiThread(new Runnable(){
             public void run(){
+                //TODO better CAT.
                 textFreqa.setText(String.format("%d\n%d",freqa,freqb));
 
-                /* This was the old codeplug view, just a textfile.  Now replaced.
-                if(textCodeplug!=null) {
-                    String codeplugdump="";
-
-                    try {
-                        for (int i = csvradio.getChannelMin(); i <= csvradio.getChannelMax(); i++) {
-                            Channel ch = csvradio.readChannel(i);
-                            if(ch!=null) {
-                                int index=ch.getIndex();
-                                String name=ch.getName();
-                                if(name==null)
-                                    name="";
-                                double frequency=ch.getRXFrequency()/1000000.0;
-
-                                //Split dir as one letter.
-                                String splitdir=ch.getSplitDir();
-                                if(splitdir.equals("split"))
-                                    splitdir="s";
-                                if(splitdir.equals("off"))
-                                    splitdir=" ";
-
-                                //Tone mode and Tone.
-                                String tonemode=ch.getToneMode();
-                                if(tonemode.equals("tone"))
-                                    tonemode="t";
-                                String tone=String.format("%2s%05.1f", tonemode, ch.getToneFreq()/10.0);
-
-                                if(tonemode.equals("dcs"))
-                                    tone=String.format("dcs %03d",ch.getDTCSCode());
-                                if(tonemode.equals(""))
-                                    tone="";
+                //This updates the codeplug view.
+                if(codeplugViewAdapter!=null)
+                    codeplugViewAdapter.notifyDataSetChanged();
 
 
-
-                                codeplugdump += String.format("%03d %17s %03.03f%1s %8s\n", index, name, frequency, splitdir, tone);
-                            }
-                        }
-                    }catch(IOException e){
-
-                    }
-
-                    textCodeplug.setText(codeplugdump);
-                }else
-                    Log.e("RADIOSTATE", "Refusing to display codeplug on a null pointer.");
-                 */
                 progressBar.setProgress(progress);
                 progressBar.setVisibility(progress<100 ? View.VISIBLE : View.INVISIBLE);
             }
@@ -240,9 +203,11 @@ public class RadioState {
             public void run(){
                 try {
                     View view=mainActivity.findViewById(android.R.id.content);
-                    if (view != null)
+                    if (view != null) {
                         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
+
+                    }
                 }catch(IllegalArgumentException e){
                     /* Sometimes the View isn't the current view, causing the snackbar creation
                      * to fail.  No biggie, because this is just an informational message, but

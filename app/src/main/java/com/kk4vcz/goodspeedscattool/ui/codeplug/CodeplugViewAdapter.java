@@ -1,5 +1,6 @@
 package com.kk4vcz.goodspeedscattool.ui.codeplug;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.io.IOException;
 
 public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapter.ViewHolder> {
     public CodeplugViewAdapter(){
-
+        RadioState.codeplugViewAdapter=this;
     }
 
     @NonNull
@@ -24,6 +25,8 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.codeplug_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        view.setOnClickListener(holder);
+        view.setOnLongClickListener(holder);
         return holder;
     }
 
@@ -51,7 +54,8 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
      * The ViewHolder is our "Presenter"- it links the View and the data to display
      * and handles how to draw the visual presentation of the data on the View
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+        int index;
 
         /***
          * A label from the view to display some info about the datum
@@ -60,7 +64,7 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
         /***
          * Another label from the view
          */
-        TextView modelDateLabel;
+        TextView modelFrequencyLabel;
 
         /***
          * ViewHolder constructor takes a view that will be used to display a single datum
@@ -77,12 +81,18 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
          * This will be called by the onBindViewHolder method of the adapter every time
          * a view is recycled
          */
+        public void binData(){
+            bindData(index);
+        }
         public void bindData(int index) {
+            //Log the index number in case we need it again.
+            this.index=index;
+
             if (modelNameLabel == null) {
                 modelNameLabel = (TextView) itemView.findViewById(R.id.modelNameLabel);
             }
-            if (modelDateLabel == null) {
-                modelDateLabel = (TextView) itemView.findViewById(R.id.modelFrequencyLabel);
+            if (modelFrequencyLabel == null) {
+                modelFrequencyLabel = (TextView) itemView.findViewById(R.id.modelFrequencyLabel);
             }
 
             if(RadioState.csvradio!=null){
@@ -90,7 +100,7 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
                     Channel c = RadioState.csvradio.readChannel(index);
                     if (c == null) {
                         modelNameLabel.setText(String.format("%03d -- %s", index, ""));
-                        modelDateLabel.setText(String.format(""));
+                        modelFrequencyLabel.setText("");
                     }else {
 
                         //Split dir as one letter.
@@ -112,16 +122,31 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
 
 
                         modelNameLabel.setText(String.format("%03d -- %s", index, c.getName()));
-                        modelDateLabel.setText(String.format("       %f%1s %8s", c.getRXFrequency() / 1000000.0, splitdir, tone));
+                        modelFrequencyLabel.setText(String.format("       %f%1s %8s", c.getRXFrequency() / 1000000.0, splitdir, tone));
+                        modelFrequencyLabel.setVisibility(View.VISIBLE);
                     }
                 }catch(IOException e){
                     modelNameLabel.setText(String.format("%03d -- %s", index, "IOException"));
-                    modelDateLabel.setText("IOException");
+                    modelFrequencyLabel.setText("IOException");
                 }
             }else {
                 modelNameLabel.setText(String.format("%03d -- %s", index, "Missing"));
-                modelDateLabel.setText("Missing");
+                modelFrequencyLabel.setText("Missing");
             }
+        }
+
+        @Override
+        public void onClick(View v) {
+            binData();
+            Log.e("ONCLICK", "Clicked on channel "+index);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            //TODO Open a context menu for editing.
+
+            Log.e("ONLONGCLICK", v.getClass().toString());
+            return false;
         }
     }
 }

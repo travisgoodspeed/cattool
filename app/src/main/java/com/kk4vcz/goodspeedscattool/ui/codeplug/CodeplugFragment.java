@@ -30,7 +30,6 @@ public class CodeplugFragment extends Fragment {
         //final TextView tv = root.findViewById(R.id.txtCodeplug);
         //RadioState.textCodeplug=tv;
 
-
         codeplugList = (RecyclerView) root.findViewById(R.id.codeplugList);
         setupRecyclerView();
 
@@ -45,5 +44,7 @@ public class CodeplugFragment extends Fragment {
         codeplugList.setHasFixedSize(true);
         codeplugList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         codeplugList.setAdapter(adapter);
+
+
     }
 }
