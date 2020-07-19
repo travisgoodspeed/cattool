@@ -37,7 +37,7 @@ public class RadioState {
 
     //GUI elements can only be written in the GUI thread.
     public static TextView textFreqa=null;
-    public static TextView textCodeplug=null;
+    //public static TextView textCodeplug=null; //Removed for new codeplug view.
     public static ProgressBar progressBar=null;
 
 
@@ -180,6 +180,8 @@ public class RadioState {
         mainActivity.runOnUiThread(new Runnable(){
             public void run(){
                 textFreqa.setText(String.format("%d\n%d",freqa,freqb));
+
+                /* This was the old codeplug view, just a textfile.  Now replaced.
                 if(textCodeplug!=null) {
                     String codeplugdump="";
 
@@ -223,8 +225,8 @@ public class RadioState {
                     textCodeplug.setText(codeplugdump);
                 }else
                     Log.e("RADIOSTATE", "Refusing to display codeplug on a null pointer.");
+                 */
                 progressBar.setProgress(progress);
-
                 progressBar.setVisibility(progress<100 ? View.VISIBLE : View.INVISIBLE);
             }
         });

@@ -1,0 +1,127 @@
+package com.kk4vcz.goodspeedscattool.ui.codeplug;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.kk4vcz.codeplug.Channel;
+import com.kk4vcz.goodspeedscattool.R;
+import com.kk4vcz.goodspeedscattool.RadioState;
+
+import java.io.IOException;
+
+public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapter.ViewHolder> {
+    public CodeplugViewAdapter(){
+
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.codeplug_item, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+
+    /***
+     * "Binding" the data to the view holder
+     *
+     * This function is what informs a holder that it's data has changed (ie, every)
+     * time the view is recycled
+     *
+     * @param holder
+     * @param position
+     */
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //holder.someModel = data.get(position);
+        holder.bindData(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return 1000; //FIXME Don't hardcode this.
+    }
+
+    /***
+     * The ViewHolder is our "Presenter"- it links the View and the data to display
+     * and handles how to draw the visual presentation of the data on the View
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+        /***
+         * A label from the view to display some info about the datum
+         */
+        TextView modelNameLabel;
+        /***
+         * Another label from the view
+         */
+        TextView modelDateLabel;
+
+        /***
+         * ViewHolder constructor takes a view that will be used to display a single datum
+         * @param itemView
+         */
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        /***
+         * This is a function that takes the piece of data currently stored in someModel
+         * and displays it using this ViewHolder's view.
+         *
+         * This will be called by the onBindViewHolder method of the adapter every time
+         * a view is recycled
+         */
+        public void bindData(int index) {
+            if (modelNameLabel == null) {
+                modelNameLabel = (TextView) itemView.findViewById(R.id.modelNameLabel);
+            }
+            if (modelDateLabel == null) {
+                modelDateLabel = (TextView) itemView.findViewById(R.id.modelFrequencyLabel);
+            }
+
+            if(RadioState.csvradio!=null){
+                try {
+                    Channel c = RadioState.csvradio.readChannel(index);
+                    if (c == null) {
+                        modelNameLabel.setText(String.format("%03d -- %s", index, ""));
+                        modelDateLabel.setText(String.format(""));
+                    }else {
+
+                        //Split dir as one letter.
+                        String splitdir=c.getSplitDir();
+                        if(splitdir.equals("split"))
+                            splitdir="s";
+                        if(splitdir.equals("off"))
+                            splitdir=" ";
+
+                        //Tone mode and Tone.
+                        String tonemode=c.getToneMode();
+                        if(tonemode.equals("tone"))
+                            tonemode="t";
+                        String tone=String.format("%2s%05.1f", tonemode, c.getToneFreq()/10.0);
+                        if(tonemode.equals("dcs"))
+                            tone=String.format("dcs %03d",c.getDTCSCode());
+                        if(tonemode.equals(""))
+                            tone="";
+
+
+                        modelNameLabel.setText(String.format("%03d -- %s", index, c.getName()));
+                        modelDateLabel.setText(String.format("       %f%1s %8s", c.getRXFrequency() / 1000000.0, splitdir, tone));
+                    }
+                }catch(IOException e){
+                    modelNameLabel.setText(String.format("%03d -- %s", index, "IOException"));
+                    modelDateLabel.setText("IOException");
+                }
+            }else {
+                modelNameLabel.setText(String.format("%03d -- %s", index, "Missing"));
+                modelDateLabel.setText("Missing");
+            }
+        }
+    }
+}
