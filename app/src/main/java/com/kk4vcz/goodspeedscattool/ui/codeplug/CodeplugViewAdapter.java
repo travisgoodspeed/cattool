@@ -41,7 +41,6 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //holder.someModel = data.get(position);
         holder.bindData(position);
     }
 
