@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.kk4vcz.codeplug.CATRadio;
 import com.kk4vcz.codeplug.Channel;
@@ -18,6 +21,7 @@ import com.kk4vcz.codeplug.radios.kenwood.TMD710G;
 import com.kk4vcz.codeplug.radios.other.ChirpCSV;
 import com.kk4vcz.codeplug.radios.yaesu.FT991A;
 import com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugViewAdapter;
+import com.kk4vcz.goodspeedscattool.ui.codeplug.EditFragment;
 
 import java.io.IOException;
 
@@ -193,9 +197,6 @@ public class RadioState {
             }
         });
     }
-
-
-
     //Draws that current state back to the UI fragments.  Call from any thread.
     public static void drawbackstring(final String message){
         mainActivity.runOnUiThread(new Runnable(){
@@ -217,4 +218,32 @@ public class RadioState {
             }
         });
     }
+
+    //Shows the channel editor for a given channel number.
+    public static void showEditor(final int index){
+        mainActivity.runOnUiThread(new Runnable(){
+            public void run(){
+                EditFragment edit=new EditFragment(index);
+
+                // A better solution is to display the fragment as as a Dialog.
+                FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+
+                // The device is using a large layout, so show the fragment as a dialog
+                edit.show(fragmentManager, "dialog");
+
+
+                /* For some stupid bug, this overlays on the lower image, and I don't know why.
+                // Show the fragment full screen.
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                // For a little polish, specify a transition animation
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                // To make it fullscreen, use the 'content' root view as the container
+                // for the fragment, which is always the root view for the activity
+                //transaction.add(android.R.id.content, edit).addToBackStack(null).commit();
+                transaction.replace(android.R.id.content, edit).addToBackStack(null).commit();
+                */
+            }
+        });
+    }
+
 }

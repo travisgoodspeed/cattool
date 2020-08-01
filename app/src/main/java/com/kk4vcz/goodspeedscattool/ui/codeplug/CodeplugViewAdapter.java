@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kk4vcz.codeplug.Channel;
@@ -138,6 +139,8 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
         public void onClick(View v) {
             binData();
             Log.e("ONCLICK", "Clicked on channel "+index);
+
+            RadioState.showEditor(index);
         }
 
         @Override

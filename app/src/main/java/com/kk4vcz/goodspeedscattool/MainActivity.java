@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 //File open dialog
                 Intent openintent = new Intent()
                         .setType("*/*")
-                        //.setAction(Intent.ACTION_OPEN_DOCUMENT);
                         .setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(openintent, "Select a Codeplug"), rcImportCodeplug);
                 return true;

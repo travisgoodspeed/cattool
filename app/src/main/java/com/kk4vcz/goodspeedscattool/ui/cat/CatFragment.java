@@ -14,11 +14,11 @@ import com.kk4vcz.goodspeedscattool.RadioState;
 
 public class CatFragment extends Fragment {
 
-    private CatViewModel slideshowViewModel;
+    private CatViewModel catViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
+        catViewModel =
                 ViewModelProviders.of(this).get(CatViewModel.class);
         View root = inflater.inflate(R.layout.fragment_cat, container, false);
 
