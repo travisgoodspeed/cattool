@@ -35,11 +35,11 @@
                     android:inputType="text"
                     android:text="Name" />
 
-                <TextView
-                    android:id="@+id/textView3"
+                <Button
+                    android:id="@+id/buttonMode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name" />
+                    android:text="FM" />
 
             </TableRow>
 

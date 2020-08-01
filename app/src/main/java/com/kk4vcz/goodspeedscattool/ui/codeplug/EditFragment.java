@@ -19,8 +19,165 @@ import com.kk4vcz.goodspeedscattool.RadioState;
 
 import java.io.IOException;
 
-public class EditFragment  extends DialogFragment {
+public class EditFragment extends DialogFragment implements View.OnClickListener {
     Channel ch;
+
+
+    //These are the widgets that show the tones.
+    TextView name;
+    TextView rxfreq;
+    TextView txfreq;
+    Button shiftbutton;
+    TextView tone;
+    Button tonebutton;
+    Button modebutton;
+
+
+    //Show the current channel settings.
+    public void showChannel(){
+        //This configures them to show the right values.
+        name.setText(ch.getName());
+        rxfreq.setText(String.format("%f", ch.getRXFrequency()/1000000.0));
+        tonebutton.setText(ch.getToneMode());
+        modebutton.setText(ch.getMode());
+        switch(ch.getToneMode()){
+            case "tone":
+                tone.setEnabled(true);
+                tone.setText(getToneString());
+                break;
+            case "ct":
+                tone.setEnabled(true);
+                tone.setText(getToneString());
+                break;
+            case "dcs":
+                tone.setEnabled(true);
+                tone.setText(String.format("%03d",ch.getDTCSCode()));
+                break;
+            case "":
+                tone.setEnabled(false);
+                tone.setText("");
+                break;
+            default:
+                Log.e("EDIT", "Unknown tone mode: "+ch.getToneMode());
+                break;
+        }
+        shiftbutton.setText(ch.getSplitDir());
+        switch(ch.getSplitDir()){
+            case "+":
+            case "-":
+                long diff = java.lang.Math.abs(ch.getTXFrequency()-ch.getRXFrequency());
+                txfreq.setText(String.format("%f", diff/1000000.0));
+                txfreq.setEnabled(true);
+                break;
+            case "split":
+                txfreq.setText(String.format("%f", ch.getTXFrequency()/1000000.0));
+                txfreq.setEnabled(true);
+                break;
+            case "simplex":
+            case "":
+                txfreq.setText(String.format("%f", ch.getRXFrequency()/1000000.0));
+                txfreq.setEnabled(false);
+                break;
+            default:
+                Log.e("EDIT", "Unknown split dir: "+ch.getToneMode());
+                break;
+        }
+    }
+
+    //Next tone mode.
+    public void nextTone(){
+        switch(ch.getToneMode()){
+            case "tone":
+                ch.setToneMode("ct");
+                break;
+            case "ct":
+                ch.setToneMode("dcs");
+                break;
+            case "dcs":
+                ch.setToneMode("");
+                break;
+            case "":
+                ch.setToneMode("tone");
+                break;
+            default:
+                Log.e("EDIT", "Unknown tone mode: "+ch.getToneMode());
+                break;
+        }
+        showChannel();
+    }
+
+    //Next mode.
+    public void nextMode(){
+        //TODO: Include all of FM, FMN, FMW, AM, USB, LSB, USB-D, LSB-D, DMR, P25, DSTAR, CW, R-CW, etc
+        switch(ch.getMode()){
+            case "FM":
+                ch.setMode("FMN");
+                break;
+            case "FMN":
+            case "NFM":
+                ch.setMode("AM");
+                break;
+            case "AM":
+                ch.setMode("USB");
+                break;
+            case "USB":
+                ch.setMode("LSB");
+                break;
+            case "LSB":
+                ch.setMode("CW");
+                break;
+            case "CW":
+                ch.setMode("FM");
+                break;
+            default:
+                Log.e("EDIT", "Unknown mode: "+ch.getToneMode());
+                break;
+        }
+
+        showChannel();
+    }
+
+    //Next split dir.
+    public void nextSplitDir(){
+        //TODO: This method might not work.
+
+        /*
+        switch(ch.getSplitDir()){
+            case "+":
+                ch.setOffset("-", Math.abs(ch.getTXFrequency()-ch.getRXFrequency()));
+                break;
+            case "-":
+                ch.setOffset("split", ch.getTXFrequency());
+                break;
+            case "split":
+                ch.setOffset("simplex", ch.getTXFrequency());
+                break;
+            case "simplex":
+            case "":
+                ch.setOffset("+", ch.getTXFrequency());
+                break;
+            default:
+                Log.e("EDIT", "Unknown split dir: "+ch.getToneMode());
+                break;
+        }
+         */
+        showChannel();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.buttonTone:
+                nextTone();
+                break;
+            case R.id.buttonMode:
+                nextMode();
+                break;
+            case R.id.buttonShift:
+                nextSplitDir();
+                break;
+        }
+    }
 
     String getToneString(){
         return String.format("%03.3f", ch.getToneFreq()/10.0);
@@ -54,61 +211,29 @@ public class EditFragment  extends DialogFragment {
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
         //These are the widgets that show the tones.
-        final TextView name = root.findViewById(R.id.editTextChannelName);
-        final TextView rxfreq = root.findViewById(R.id.editTextFrequency);
-        final TextView txfreq = root.findViewById(R.id.editTextShift);
-        final Button shiftbutton = root.findViewById(R.id.buttonShift);
-        final TextView tone = root.findViewById(R.id.editTextTone);
-        final Button tonebutton = root.findViewById(R.id.buttonTone);
+        name = root.findViewById(R.id.editTextChannelName);
+        rxfreq = root.findViewById(R.id.editTextFrequency);
+        txfreq = root.findViewById(R.id.editTextShift);
+        shiftbutton = root.findViewById(R.id.buttonShift);
+        tone = root.findViewById(R.id.editTextTone);
+        tonebutton = root.findViewById(R.id.buttonTone);
+        modebutton = root.findViewById(R.id.buttonMode);
 
-        //This configures them to show the right values.
-        name.setText(ch.getName());
-        rxfreq.setText(String.format("%f", ch.getRXFrequency()/1000000.0));
-        tonebutton.setText(ch.getToneMode());
-        switch(ch.getToneMode()){
-            case "tone":
-                tone.setEnabled(true);
-                tone.setText(getToneString());
-                break;
-            case "ct":
-                tone.setEnabled(true);
-                tone.setText(getToneString());
-                break;
-            case "":
-                tone.setEnabled(false);
-                tone.setText("");
-                break;
-            default:
-                Log.e("EDIT", "Unknown tone mode: "+ch.getToneMode());
-                break;
-        }
+        //Apply the buttons.
+        shiftbutton.setOnClickListener(this);
+        tonebutton.setOnClickListener(this);
+        modebutton.setOnClickListener(this);
 
-        shiftbutton.setText(ch.getSplitDir());
-        switch(ch.getSplitDir()){
-            case "+":
-            case "-":
-                long diff = java.lang.Math.abs(ch.getTXFrequency()-ch.getRXFrequency());
-                txfreq.setText(String.format("%f", diff/1000000.0));
-                txfreq.setEnabled(true);
-                break;
-            case "split":
-                txfreq.setText(String.format("%f", ch.getTXFrequency()/1000000.0));
-                txfreq.setEnabled(true);
-                break;
-            case "simplex":
-            case "":
-                txfreq.setText(String.format("%f", ch.getRXFrequency()/1000000.0));
-                txfreq.setEnabled(false);
-                break;
-            default:
-                Log.e("EDIT", "Unknown split dir: "+ch.getToneMode());
-                break;
-        }
+        //Do the rendering.
+        showChannel();
 
         return root;
     }
 
 
+
+
+    /*
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // The only reason you might override this method when using onCreateView() is
@@ -120,4 +245,5 @@ public class EditFragment  extends DialogFragment {
 
         return dialog;
     }
+     */
 }
