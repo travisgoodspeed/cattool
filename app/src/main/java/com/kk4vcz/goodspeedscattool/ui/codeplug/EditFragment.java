@@ -104,8 +104,8 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
     }
 
     //Parses a long frequency from a string.
-    public static long freq2long(String freq){
-        return (long) (Double.parseDouble(freq)*1000000.0);
+    public static long freq2long(String freq) throws NumberFormatException{
+        return (long) (Double.parseDouble(freq) * 1000000.0);
     }
 
     //Parses a long frequency from a string.
@@ -121,7 +121,11 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
 
         //Name and RX frequency are easy.
         ch.setName(name.getText().toString());
-        ch.setRXFrequency(freq2long(rxfreq.getText().toString()));
+        try {
+            ch.setRXFrequency(freq2long(rxfreq.getText().toString()));
+        }catch(NumberFormatException e){
+            Log.e("EDIT", "Illegal RX Frequency", e);
+        }
 
         //The shift and the tone are trickier, because they depend upon the mode.
         //TODO Shift

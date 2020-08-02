@@ -1,23 +1,35 @@
 # Goodspeed's CAT Tool
 
-Android app for controlling the Kenwood TH-D74, TH-D72, TM-D710 and
-other radios.  Based on CodePlugTool, which is a pure-Java library for
-controlling these same radios.
+This is an Android app for programming the Kenwood TH-D74, TH-D72, and
+TM-D710.  Based on
+[CodePlugTool](https://github.com/travisgoodspeed/codeplugtool) which
+is a pure-Java library for controlling these same radios.
 
 ## Status
 
-The app is minimally functional, connecting to radios and using their
-CAT protocols over TCP or Bluetooth.  On-phone editing of the codeplug
-is not yet functional.
+The app is now functional for editing radio memories, including
+uploading to and downloading from a radio over Bluetooth and TCP, as
+well as importing and exporting a CSV format compatible with
+[CHIRP](https://chirp.danplanet.com/projects/chirp/wiki/Home).
 
 ## Usage
 
 Open the app, then poke around.  I'll update these instructions when
 things are more stable.
 
-To share a mobile radio's serial port over your home LAN, run `socat
-tcp-l:54321,reuseaddr,fork file:/dev/ttyS1,nonblock,raw,echo=0` with
-your own port numbers.
+To share a mobile radio's serial port over your home network, first
+set the baud with `stty` and then open the socket with `socat`.  This
+is the script that I use in my shack.
+
+```
+stty -F /dev/ttyS1 57600
+socat tcp-l:54321,reuseaddr,fork file:/dev/ttyS1,nonblock,raw,echo=0
+```
+
+For Bluetooth, first pair your phone with the radio in Android's
+Settings, then select the radio in the app's own Settings.  The TH-D74
+is known to work without additional hardware, but other radios should
+work with the right adapter.
 
 ## Building
 
@@ -25,7 +37,7 @@ This code depends upon
 [CodePlugTool.jar](https://github.com/travisgoodspeed/codeplugtool),
 which must be built using JDK8 or the Android SDK's `javac`, then
 placed in `app/libs/`.  For your convenience, a rarely updated build
-of that library is included in the repo.
+of that library is included in `app/libs/`.
 
 To build the main application, use Android Studio 4 and a matching
 build of Gradle.
