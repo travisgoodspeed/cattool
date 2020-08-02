@@ -19,9 +19,16 @@ import com.kk4vcz.goodspeedscattool.RadioState;
 
 import java.io.IOException;
 
+
+/* This fragment is used to display a codeplug memory entry, allowing the user to edit it and
+   eventually save it back to the local CSVRadio.  GUI programming sucks, and I'm not very good
+   at it, so kindly rewrite this class if you find the time.
+
+   --Travis
+ */
+
 public class EditFragment extends DialogFragment implements View.OnClickListener {
     Channel ch;
-
 
     //These are the widgets that show the tones.
     TextView name;
@@ -62,6 +69,7 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
                 break;
         }
         shiftbutton.setText(ch.getSplitDir());
+        shiftbutton.setEnabled(true);
         switch(ch.getSplitDir()){
             case "+":
             case "-":
@@ -77,15 +85,60 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
             case "":
                 txfreq.setText(String.format("%f", ch.getRXFrequency()/1000000.0));
                 txfreq.setEnabled(false);
+                shiftbutton.setText("simplex");
                 break;
             default:
                 Log.e("EDIT", "Unknown split dir: "+ch.getToneMode());
                 break;
         }
+
+
+        //Digital modes get weird, so we handle them as special cases.
+        switch(ch.getMode()){
+            case "DSTAR":
+                tone.setText(ch.getURCALL());
+                tone.setEnabled(true);
+                tonebutton.setText("URCALL");
+                break;
+        }
+    }
+
+    //Parses a long frequency from a string.
+    public static long freq2long(String freq){
+        return (long) (Double.parseDouble(freq)*1000000.0);
+    }
+
+    //Parses a long frequency from a string.
+    public static String freq2str(long freq){
+        return String.format("%f", freq/1000000.0);
+    }
+
+    //Apply the settings to the local copy of the channel.
+    public void applyChannel(){
+        /* The buttons are applied through their own functions, but we need to write all
+           modified strings back to from their textfields here.
+         */
+
+        //Name and RX frequency are easy.
+        ch.setName(name.getText().toString());
+        ch.setRXFrequency(freq2long(rxfreq.getText().toString()));
+
+        //The shift and the tone are trickier, because they depend upon the mode.
+        //TODO Shift
+        //TODO Tone
     }
 
     //Next tone mode.
     public void nextTone(){
+        //Digital modes don't support alternate tone modes.
+        switch(ch.getToneMode()){
+            case "DSTAR":
+            case "P25":
+            case "DMR":
+                return;
+        }
+
+        //For the rest of them, we cycle through the list as each button is pressed.
         switch(ch.getToneMode()){
             case "tone":
                 ch.setToneMode("ct");
@@ -101,9 +154,9 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
                 break;
             default:
                 Log.e("EDIT", "Unknown tone mode: "+ch.getToneMode());
+                ch.setToneMode("");
                 break;
         }
-        showChannel();
     }
 
     //Next mode.
@@ -113,8 +166,8 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
             case "FM":
                 ch.setMode("FMN");
                 break;
-            case "FMN":
-            case "NFM":
+            case "FMN"://Correct string.
+            case "NFM"://Incorrect, but common string.
                 ch.setMode("AM");
                 break;
             case "AM":
@@ -124,48 +177,89 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
                 ch.setMode("LSB");
                 break;
             case "LSB":
+                ch.setMode("USB-D");
+                break;
+            case "USB-D":
+                ch.setMode("LSB-D");
+                break;
+            case "LSB-D":
+                ch.setMode("DMR");
+                break;
+            case "DMR":
+                ch.setMode("P25");
+                break;
+            case "P25":
+                ch.setMode("DSTAR");
+                break;
+            case "DSTAR":
                 ch.setMode("CW");
                 break;
             case "CW":
+                ch.setMode("R-CW");
+                break;
+            case "R-CW":
                 ch.setMode("FM");
                 break;
             default:
                 Log.e("EDIT", "Unknown mode: "+ch.getToneMode());
+                ch.setMode("FM"); //Bring the loop back on track.
                 break;
         }
-
-        showChannel();
     }
 
+    static long getARO(long freq) {
+        //TODO These offsets assume Region 2 bandplans.
+
+        long aro=600000;
+
+        if(freq>100000000)
+            aro=600000;
+        if(freq>200000000)
+            aro=1600000;
+        if(freq>400000000)
+            aro=5000000;
+
+        return aro;
+    }
+
+
+    long splitfreq=0;
     //Next split dir.
     public void nextSplitDir(){
-        //TODO: This method might not work.
+        //+, - and Simplex are easy enough, but for a split, we need to store the TX Freq separately.
 
-        /*
         switch(ch.getSplitDir()){
             case "+":
                 ch.setOffset("-", Math.abs(ch.getTXFrequency()-ch.getRXFrequency()));
                 break;
             case "-":
-                ch.setOffset("split", ch.getTXFrequency());
+                if(splitfreq==0)
+                    ch.setOffset("split", ch.getTXFrequency());
+                else
+                    ch.setOffset("split", splitfreq);
                 break;
             case "split":
-                ch.setOffset("simplex", ch.getTXFrequency());
+                if(splitfreq==0)
+                    splitfreq=ch.getTXFrequency();
+                ch.setOffset("simplex", ch.getRXFrequency());
                 break;
             case "simplex":
             case "":
-                ch.setOffset("+", ch.getTXFrequency());
+                if(splitfreq!=0) {
+                    ch.setOffset("+", Math.abs(ch.getRXFrequency() - splitfreq));
+                }else{
+                    ch.setOffset("+", getARO(ch.getRXFrequency()));
+                }
                 break;
             default:
                 Log.e("EDIT", "Unknown split dir: "+ch.getToneMode());
                 break;
         }
-         */
-        showChannel();
     }
 
     @Override
     public void onClick(View v) {
+        applyChannel();
         switch(v.getId()){
             case R.id.buttonTone:
                 nextTone();
@@ -176,7 +270,19 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
             case R.id.buttonShift:
                 nextSplitDir();
                 break;
+            case R.id.buttonSave:
+                try {
+                    RadioState.csvradio.writeChannel(ch.getIndex(), ch);
+                    RadioState.drawback(100);
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.buttonCancel:
+
+                break;
         }
+        showChannel();
     }
 
     String getToneString(){
@@ -210,6 +316,10 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
         // Inflate the layout to use as dialog or embedded fragment
         View root = inflater.inflate(R.layout.fragment_edit, container, false);
 
+
+        Button cancel=root.findViewById(R.id.buttonCancel);
+        Button save=root.findViewById(R.id.buttonSave);
+
         //These are the widgets that show the tones.
         name = root.findViewById(R.id.editTextChannelName);
         rxfreq = root.findViewById(R.id.editTextFrequency);
@@ -223,6 +333,8 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
         shiftbutton.setOnClickListener(this);
         tonebutton.setOnClickListener(this);
         modebutton.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        save.setOnClickListener(this);
 
         //Do the rendering.
         showChannel();
