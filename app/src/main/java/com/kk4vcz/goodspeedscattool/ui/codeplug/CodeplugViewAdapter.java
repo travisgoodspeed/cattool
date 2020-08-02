@@ -138,17 +138,20 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
         @Override
         public void onClick(View v) {
             binData();
-            Log.e("ONCLICK", "Clicked on channel "+index);
-
             RadioState.showEditor(index);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            //TODO Open a context menu for editing.
+            //TODO Open a context menu for editing, instead of just deleting it.
+            try {
+                RadioState.csvradio.deleteChannel(index);
+            }catch(IOException e){
+                Log.e("RADIORESULT", "Deleting error", e);
+            }
 
-            Log.e("ONLONGCLICK", v.getClass().toString());
-            return false;
+            binData(); //Update the view now that the record is gone.
+            return true; //Long click accepted, so don't do the single click.
         }
     }
 }
