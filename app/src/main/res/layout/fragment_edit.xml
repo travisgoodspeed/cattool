@@ -52,8 +52,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="number"
-                    android:text="146520000" />
+                    android:inputType="text"
+                    android:text="146.52" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:enabled="false"
-                    android:inputType="textPersonName"
+                    android:inputType="text"
                     android:text="none" />
 
                 <Button
