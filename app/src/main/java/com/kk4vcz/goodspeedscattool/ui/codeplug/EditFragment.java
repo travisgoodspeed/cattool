@@ -3,7 +3,9 @@ package com.kk4vcz.goodspeedscattool.ui.codeplug;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -345,7 +347,6 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
 
         return root;
     }
-
 
 
 

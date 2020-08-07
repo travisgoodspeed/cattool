@@ -1,13 +1,13 @@
 package com.kk4vcz.goodspeedscattool.ui.codeplug;
 
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kk4vcz.codeplug.Channel;
@@ -16,7 +16,7 @@ import com.kk4vcz.goodspeedscattool.RadioState;
 
 import java.io.IOException;
 
-public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapter.ViewHolder> {
+public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapter.ViewHolder> implements View.OnCreateContextMenuListener {
     public CodeplugViewAdapter(){
         RadioState.codeplugViewAdapter=this;
     }
@@ -26,8 +26,12 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.codeplug_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
+
+        //Old handlers.
         view.setOnClickListener(holder);
-        view.setOnLongClickListener(holder);
+        view.setOnLongClickListener(holder);  //Rather show the context menu.
+
+        view.setOnCreateContextMenuListener(this);
         return holder;
     }
 
@@ -48,6 +52,21 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
     @Override
     public int getItemCount() {
         return 1000; //FIXME Don't hardcode this.
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Memory "+RadioState.index+":");
+
+        Log.e("EDIT", "Memory "+RadioState.index);
+
+        //groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "Tune");
+        menu.add(0, v.getId(), 0, "Edit");
+        menu.add(0, v.getId(), 0, "Delete");
+        menu.add(0, v.getId(), 0, "Duplicate");
+        menu.add(0, v.getId(), 0, "Move");
+        menu.add(0, v.getId(), 0, "M->V");
     }
 
     /***
@@ -94,6 +113,8 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
             if (modelFrequencyLabel == null) {
                 modelFrequencyLabel = (TextView) itemView.findViewById(R.id.modelFrequencyLabel);
             }
+
+
 
             if(RadioState.csvradio!=null){
                 try {
@@ -143,15 +164,11 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
 
         @Override
         public boolean onLongClick(View v) {
-            //TODO Open a context menu for editing, instead of just deleting it.
-            try {
-                RadioState.csvradio.deleteChannel(index);
-            }catch(IOException e){
-                Log.e("RADIORESULT", "Deleting error", e);
-            }
+            Log.e("CODEPLUG", "Opening menu for channel "+index);
+            RadioState.index=index;
 
-            binData(); //Update the view now that the record is gone.
-            return true; //Long click accepted, so don't do the single click.
+            //We return false so that the menu pops up, but *after* we record the index for handling.
+            return false;
         }
     }
 }

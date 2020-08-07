@@ -38,6 +38,7 @@ public class RadioState {
     //Local copies of radio variables save us from unneeded comm delays.
     public static long freqa=0, freqb=0;
     public static ChirpCSV csvradio=new ChirpCSV();
+    public static int index=0; //Currently selected channel, for GUI use one.
 
     //GUI elements can only be written in the GUI thread.
     public static TextView textFreqa=null;
@@ -197,11 +198,28 @@ public class RadioState {
         });
     }
     //Draws that current state back to the UI fragments.  Call from any thread.
+    public static void drawback(){
+        mainActivity.runOnUiThread(new Runnable(){
+            public void run(){
+                //This updates the codeplug view.
+                if(codeplugViewAdapter!=null)
+                    codeplugViewAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+    //Draws that current state back to the UI fragments.  Call from any thread.
     public static void drawbackstring(final String message){
         mainActivity.runOnUiThread(new Runnable(){
             public void run(){
                 try {
                     View view=mainActivity.findViewById(android.R.id.content);
+
+                    //This updates the codeplug view.
+                    if(codeplugViewAdapter!=null)
+                        codeplugViewAdapter.notifyDataSetChanged();
+
                     if (view != null) {
                         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
