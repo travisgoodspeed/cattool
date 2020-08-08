@@ -64,13 +64,20 @@ public class CodeplugFragment extends Fragment {
                     clipboard = (ClipboardManager)
                             RadioState.mainActivity.getSystemService(Context.CLIPBOARD_SERVICE);
                     ch = (CSVChannel) RadioState.csvradio.readChannel(RadioState.index);
-                    clip = ClipData.newPlainText("simple text",
-                            ch.renderCSV()
-                            );
-                    clipboard.setPrimaryClip(clip);
-                    RadioState.drawbackstring("Copied from local memory " + RadioState.index + ".");
-                    if(item.getTitle()=="Copy")
-                        break;
+                    if(ch!=null) {
+                        clip = ClipData.newPlainText("simple text",
+                                ch.renderCSV()
+                        );
+                        clipboard.setPrimaryClip(clip);
+                        RadioState.drawbackstring("Copied from local memory " + RadioState.index + ".");
+                    }
+                    if(item.getTitle()=="Cut") {
+                        RadioState.csvradio.deleteChannel(RadioState.index);
+                        RadioState.drawbackstring("Cut local memory " + RadioState.index + ".");
+                    }else{
+                        RadioState.drawbackstring("Copied local memory " + RadioState.index + ".");
+                    }
+                    break;
                 case "Delete":
                     RadioState.csvradio.deleteChannel(RadioState.index);
                     RadioState.drawbackstring("Deleted local memory " + RadioState.index + ".");
@@ -101,6 +108,9 @@ public class CodeplugFragment extends Fragment {
 
         }catch(IOException e){
             Log.e("CODEPLUG", "Error handling the context menu.", e);
+        }catch(NumberFormatException e){
+            Log.e("CODEPLUG", "Formatting error.", e);
+            //Probably an illegal CSV paste.
         }
 
         return true;
