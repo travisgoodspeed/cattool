@@ -1,8 +1,10 @@
 package com.kk4vcz.goodspeedscattool.ui.codeplug;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kk4vcz.codeplug.radios.other.CSVChannel;
 import com.kk4vcz.goodspeedscattool.R;
 import com.kk4vcz.goodspeedscattool.RadioState;
 
@@ -48,15 +51,24 @@ public class CodeplugFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         try {
             switch (item.getTitle().toString()) {
-
                 case "Delete":
                     RadioState.csvradio.deleteChannel(RadioState.index);
                     RadioState.drawbackstring("Deleted local memory " + RadioState.index + ".");
                     break;
-                case "Tune":
                 case "Edit":
-                case "Duplicate":
-                case "Move":
+                    RadioState.showEditor(RadioState.index);
+                    break;
+                case "Copy":
+                    ClipboardManager clipboard = (ClipboardManager)
+                            RadioState.mainActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+                    CSVChannel ch = (CSVChannel) RadioState.csvradio.readChannel(RadioState.index);
+                    ClipData clip = ClipData.newPlainText("simple text",
+                            ch.renderCSV()
+                            );
+                    clipboard.setPrimaryClip(clip);
+                    break;
+                case "Paste":
+                case "Tune":
                 case "M->V":
                 default:
                     RadioState.drawbackstring("TODO: "+item.getTitle());

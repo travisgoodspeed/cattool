@@ -33,7 +33,7 @@ public class RadioState {
     static RadioConnection conn=null;
     static CATRadio radio=null;
 
-    static MainActivity mainActivity=null;
+    static public MainActivity mainActivity=null;
 
     //Local copies of radio variables save us from unneeded comm delays.
     public static long freqa=0, freqb=0;
