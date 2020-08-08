@@ -53,24 +53,27 @@ public class CodeplugFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         ClipboardManager clipboard;
         CSVChannel ch;
+        ClipData clip;
         try {
             switch (item.getTitle().toString()) {
-                case "Delete":
-                    RadioState.csvradio.deleteChannel(RadioState.index);
-                    RadioState.drawbackstring("Deleted local memory " + RadioState.index + ".");
-                    break;
                 case "Edit"://Shows the editing dialog.
                     RadioState.showEditor(RadioState.index);
                     break;
                 case "Copy"://Copies the CSV serialization of the channel.
+                case "Cut": //Copies the CSV serialization of the channel and deletes the original.
                     clipboard = (ClipboardManager)
                             RadioState.mainActivity.getSystemService(Context.CLIPBOARD_SERVICE);
                     ch = (CSVChannel) RadioState.csvradio.readChannel(RadioState.index);
-                    ClipData clip = ClipData.newPlainText("simple text",
+                    clip = ClipData.newPlainText("simple text",
                             ch.renderCSV()
                             );
                     clipboard.setPrimaryClip(clip);
                     RadioState.drawbackstring("Copied from local memory " + RadioState.index + ".");
+                    if(item.getTitle()=="Copy")
+                        break;
+                case "Delete":
+                    RadioState.csvradio.deleteChannel(RadioState.index);
+                    RadioState.drawbackstring("Deleted local memory " + RadioState.index + ".");
                     break;
                 case "Paste"://Pastes the CSV deserialization of the channel.
                     clipboard = (ClipboardManager)
