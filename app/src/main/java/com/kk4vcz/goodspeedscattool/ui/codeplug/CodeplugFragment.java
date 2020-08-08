@@ -21,6 +21,8 @@ import com.kk4vcz.goodspeedscattool.RadioState;
 
 import java.io.IOException;
 
+import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
+
 public class CodeplugFragment extends Fragment {
     RecyclerView codeplugList;
 
@@ -49,27 +51,47 @@ public class CodeplugFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        ClipboardManager clipboard;
+        CSVChannel ch;
         try {
             switch (item.getTitle().toString()) {
                 case "Delete":
                     RadioState.csvradio.deleteChannel(RadioState.index);
                     RadioState.drawbackstring("Deleted local memory " + RadioState.index + ".");
                     break;
-                case "Edit":
+                case "Edit"://Shows the editing dialog.
                     RadioState.showEditor(RadioState.index);
                     break;
-                case "Copy":
-                    ClipboardManager clipboard = (ClipboardManager)
+                case "Copy"://Copies the CSV serialization of the channel.
+                    clipboard = (ClipboardManager)
                             RadioState.mainActivity.getSystemService(Context.CLIPBOARD_SERVICE);
-                    CSVChannel ch = (CSVChannel) RadioState.csvradio.readChannel(RadioState.index);
+                    ch = (CSVChannel) RadioState.csvradio.readChannel(RadioState.index);
                     ClipData clip = ClipData.newPlainText("simple text",
                             ch.renderCSV()
                             );
                     clipboard.setPrimaryClip(clip);
+                    RadioState.drawbackstring("Copied from local memory " + RadioState.index + ".");
                     break;
-                case "Paste":
-                case "Tune":
-                case "M->V":
+                case "Paste"://Pastes the CSV deserialization of the channel.
+                    clipboard = (ClipboardManager)
+                            RadioState.mainActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+                    String pasteData = "";
+                    if(clipboard.hasPrimaryClip() && clipboard.getPrimaryClipDescription().hasMimeType(MIMETYPE_TEXT_PLAIN)){
+                        ClipData.Item cpitem = clipboard.getPrimaryClip().getItemAt(0);
+
+                        // Gets the clipboard as text.
+                        pasteData = cpitem.getText().toString();
+
+                        //Make into a channel.
+                        ch=new CSVChannel(pasteData);
+                        RadioState.csvradio.writeChannel(RadioState.index, ch);
+                        RadioState.drawbackstring("Pasted to local memory " + RadioState.index + ".");
+                    }else{
+                        RadioState.drawbackstring("Unable to paste local memory " + RadioState.index + ".");
+                    }
+                    break;
+                case "Tune"://Tune the radio to this channel.
+                case "M->V"://Copies the channel into the VFO.
                 default:
                     RadioState.drawbackstring("TODO: "+item.getTitle());
             }
