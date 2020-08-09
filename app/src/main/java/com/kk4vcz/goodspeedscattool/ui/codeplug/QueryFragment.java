@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.kk4vcz.codeplug.Main;
@@ -27,7 +27,16 @@ import java.io.IOException;
  * This fragment fetches results from RepeaterBook's servers.
  */
 public class QueryFragment extends DialogFragment implements View.OnClickListener {
+    //Target index for loading results.
     int index=0;
+
+    //Parameters.
+    String loc="";
+    int distance=25;
+    long band=0;
+
+    //This stores the results of the query.
+    Radio results=null;
 
     public QueryFragment(int index) {
         this.index=index;
@@ -48,7 +57,9 @@ public class QueryFragment extends DialogFragment implements View.OnClickListene
         buttonFetch=root.findViewById(R.id.buttonFetch);
         buttonApply=root.findViewById(R.id.buttonApply);
         textQueryInsertLocation=root.findViewById(R.id.textQueryInsertLocation);
-        textLocation=root.findViewById(R.id.textLocation);
+        editLocation =root.findViewById(R.id.editLocation);
+        editDistance =root.findViewById(R.id.editDistance);
+        radiogroupBand = root.findViewById(R.id.radiogroupBand);
 
         //Apply the listeners.
         buttonFetch.setOnClickListener(this);
@@ -63,13 +74,12 @@ public class QueryFragment extends DialogFragment implements View.OnClickListene
         return root;
     }
 
-    //This stores the results of the query.
-    Radio results=null;
+
 
     //Fetch the results from the server.  Must occur in a background thread.
     void fetch() throws IOException {
         RadioAPI api=new RepeaterBook();
-        results=api.queryProximity(textLocation.getText()+"", 25, 0);
+        results=api.queryProximity(loc, distance, band);
     }
 
     //Apply them to the appropriate index.
@@ -87,13 +97,49 @@ public class QueryFragment extends DialogFragment implements View.OnClickListene
     //Local pointers to widgets.
     Button buttonFetch, buttonApply;
     TextView textQueryInsertLocation;
-    EditText textLocation;
+    EditText editLocation, editDistance;
+    RadioGroup radiogroupBand;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonFetch:
-                new QueryTask().execute(textLocation.getText()+"");
+                //Load the parameters.
+                loc=editLocation.getText()+"";
+                distance=Integer.parseInt(editDistance.getText()+"");
+                switch(radiogroupBand.getCheckedRadioButtonId()){
+                    case R.id.radioAll:
+                    default:
+                        band=0;
+                        break;
+                    case R.id.radio10M:
+                        band=28000000;
+                        break;
+                    case R.id.radio6M:
+                        band=53000000;
+                        break;
+                    case R.id.radio4M:
+                        band=70000000;
+                        break;
+                    case R.id.radio2M:
+                        band=144000000;
+                        break;
+                    case R.id.radio125M:
+                        band=220000000;
+                        break;
+                    case R.id.radio70CM:
+                        band=440000000;
+                        break;
+                    case R.id.radio33CM:
+                        band=915000000;
+                        break;
+                    case R.id.radio9CM:
+                        band=1200000000;
+                        break;
+                }
+
+                //Perform the query.
+                new QueryTask().execute(editLocation.getText()+"");
                 break;
             case R.id.buttonApply:
                 apply();
@@ -107,7 +153,7 @@ public class QueryFragment extends DialogFragment implements View.OnClickListene
 
 
     private class QueryTask extends AsyncTask<String, Integer, Long> {
-        protected Long doInBackground(String... loc) {
+        protected Long doInBackground(String... asdf) {
             try {
                 results=null;
                 fetch();

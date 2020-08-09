@@ -35,7 +35,7 @@
                     android:layout_height="match_parent">
 
                     <EditText
-                        android:id="@+id/textLocation"
+                        android:id="@+id/editLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -53,7 +53,7 @@
                     android:layout_height="match_parent">
 
                     <EditText
-                        android:id="@+id/editTextNumber2"
+                        android:id="@+id/editDistance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -72,60 +72,61 @@
                     android:layout_height="match_parent">
 
                     <RadioGroup
+                        android:id="@+id/radiogroupBand"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <RadioButton
-                            android:id="@+id/radioButton"
+                            android:id="@+id/radioAll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="All" />
 
                         <RadioButton
-                            android:id="@+id/radioButton2"
+                            android:id="@+id/radio10M"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="10m" />
 
                         <RadioButton
-                            android:id="@+id/radioButton3"
+                            android:id="@+id/radio6M"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="6m" />
 
                         <RadioButton
-                            android:id="@+id/radioButton4"
+                            android:id="@+id/radio4M"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="4m" />
 
                         <RadioButton
-                            android:id="@+id/radioButton5"
+                            android:id="@+id/radio2M"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="2m" />
 
                         <RadioButton
-                            android:id="@+id/radioButton6"
+                            android:id="@+id/radio125M"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="1.25m" />
 
                         <RadioButton
-                            android:id="@+id/radioButton7"
+                            android:id="@+id/radio70CM"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="70cm" />
 
                         <RadioButton
-                            android:id="@+id/radioButton8"
+                            android:id="@+id/radio33CM"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="33cm" />
 
                         <RadioButton
-                            android:id="@+id/radioButton9"
+                            android:id="@+id/radio9CM"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="9cm" />

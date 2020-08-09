@@ -114,6 +114,9 @@ public class CodeplugFragment extends Fragment {
         }catch(NumberFormatException e){
             Log.e("CODEPLUG", "Formatting error.", e);
             //Probably an illegal CSV paste.
+        }catch(ArrayIndexOutOfBoundsException e){
+            //Illegal CSV paste.
+            Log.e("CODEPLUG", "Formatting error.", e);
         }
 
         return true;
