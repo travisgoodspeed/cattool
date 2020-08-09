@@ -14,8 +14,8 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 
-import com.kk4vcz.codeplug.CSVChannel;
 import com.kk4vcz.codeplug.Channel;
+import com.kk4vcz.codeplug.radios.other.CSVChannel;
 import com.kk4vcz.goodspeedscattool.R;
 import com.kk4vcz.goodspeedscattool.RadioState;
 
