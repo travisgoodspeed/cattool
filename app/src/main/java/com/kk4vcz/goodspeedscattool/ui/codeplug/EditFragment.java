@@ -280,12 +280,13 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
                 try {
                     RadioState.csvradio.writeChannel(ch.getIndex(), ch);
                     RadioState.drawback(100);
+                    getDialog().dismiss();
                 }catch(IOException e){
                     e.printStackTrace();
                 }
                 break;
             case R.id.buttonCancel:
-
+                getDialog().dismiss();
                 break;
         }
         showChannel();
@@ -297,7 +298,6 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
 
     public EditFragment(int index){
         super();
-        //Log.v("EDIT", "Attempting to show editing of "+index);
 
         try {
             ch = RadioState.csvradio.readChannel(index);

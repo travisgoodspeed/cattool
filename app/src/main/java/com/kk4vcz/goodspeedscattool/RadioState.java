@@ -21,6 +21,7 @@ import com.kk4vcz.codeplug.radios.other.ChirpCSV;
 import com.kk4vcz.codeplug.radios.yaesu.FT991A;
 import com.kk4vcz.goodspeedscattool.ui.codeplug.CodeplugViewAdapter;
 import com.kk4vcz.goodspeedscattool.ui.codeplug.EditFragment;
+import com.kk4vcz.goodspeedscattool.ui.codeplug.QueryFragment;
 
 import java.io.IOException;
 
@@ -259,6 +260,21 @@ public class RadioState {
                 //transaction.add(android.R.id.content, edit).addToBackStack(null).commit();
                 transaction.replace(android.R.id.content, edit).addToBackStack(null).commit();
                 */
+            }
+        });
+    }
+
+    //Shows the query fragment to import from a databse source.
+    public static void showQueryImport(final int index){
+        mainActivity.runOnUiThread(new Runnable(){
+            public void run(){
+                QueryFragment query=new QueryFragment(index);
+
+                // A better solution is to display the fragment as as a Dialog.
+                FragmentManager fragmentManager = mainActivity.getSupportFragmentManager();
+
+                // The device is using a large layout, so show the fragment as a dialog
+                query.show(fragmentManager, "dialog");
             }
         });
     }

@@ -100,6 +100,9 @@ public class CodeplugFragment extends Fragment {
                         RadioState.drawbackstring("Unable to paste local memory " + RadioState.index + ".");
                     }
                     break;
+                case "Query":
+                    RadioState.showQueryImport(RadioState.index);
+                    break;
                 case "Tune"://Tune the radio to this channel.
                 case "M->V"://Copies the channel into the VFO.
                 default:

@@ -66,6 +66,7 @@ public class CodeplugViewAdapter extends RecyclerView.Adapter<CodeplugViewAdapte
         menu.add(0, v.getId(), 0, "Cut");
         menu.add(0, v.getId(), 0, "Copy");
         menu.add(0, v.getId(), 0, "Paste");
+        menu.add(0, v.getId(), 0, "Query");
         menu.add(0, v.getId(), 0, "Tune");
         menu.add(0, v.getId(), 0, "M->V");
     }
