@@ -139,6 +139,7 @@ public class QueryFragment extends DialogFragment implements View.OnClickListene
                 }
 
                 //Perform the query.
+                Log.e("QUERY", "Querying channesl from "+editLocation.getText());
                 new QueryTask().execute(editLocation.getText()+"");
                 break;
             case R.id.buttonApply:
