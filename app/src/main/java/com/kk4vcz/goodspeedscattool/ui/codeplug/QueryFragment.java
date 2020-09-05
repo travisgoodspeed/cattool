@@ -69,7 +69,7 @@ public class QueryFragment extends DialogFragment implements View.OnClickListene
         buttonApply.setEnabled(false);
 
         //Apply some strings.
-        textQueryInsertLocation.setText("Insert at memory "+index+".");
+        textQueryInsertLocation.setText("Querying RepeaterBook.\nInsert at memory "+index+".");
 
         return root;
     }
@@ -169,8 +169,32 @@ public class QueryFragment extends DialogFragment implements View.OnClickListene
             //setProgressPercent(progress[0]);
         }
 
+        private int countChannels(Radio r){
+            int count=0;
+            try {
+                for (int i = r.getChannelMin(); i < r.getChannelMax(); i++) {
+                    if (r.readChannel(i) != null)
+                        count++;
+                }
+            }catch(Exception e){
+                Log.e("COUNTCHANNELS","Error in count.", e);
+                return 0;
+            }
+            return count;
+        }
+
         protected void onPostExecute(Long result) {
-            buttonApply.setEnabled(results!=null);
+            //Off by default.
+            buttonApply.setText("Apply");
+            buttonApply.setEnabled(false);
+
+            //Enable if there are channels to commit.
+            if(results!=null){
+                int count=countChannels(results);
+                buttonApply.setText("Apply "+count+" channels.");
+                if(count>0)
+                    buttonApply.setEnabled(true);
+            }
         }
     }
 
