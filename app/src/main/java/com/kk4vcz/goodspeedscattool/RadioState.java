@@ -71,6 +71,12 @@ public class RadioState {
             return false;
         }
 
+        if(conn==null){
+            //We attempted to connect, but it didn't work out.
+            drawbackstring("Failed to connect. Check radio and settings.");
+            return false;
+        }
+
         if(pref_device.equals("d74")){
             radio=new THD74(conn.getInputStream(), conn.getOutputStream());
         }else if(pref_device.equals("d72")){
