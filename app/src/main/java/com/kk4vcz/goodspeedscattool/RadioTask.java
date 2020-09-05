@@ -59,15 +59,19 @@ public class RadioTask extends AsyncTask {
             if(RadioState.connect()) {
                 Log.v("RADIORESULT", "Connected");
 
-                if(updatecat) {
-                    RadioState.updateCAT();
+                try {
+                    if (updatecat)
+                        RadioState.updateCAT();
+                    if (downloadcodeplug)
+                        RadioState.downloadCodeplug();
+                    if (erasetarget)
+                        RadioState.eraseTargetCodeplug();
+                    if (uploadcodeplug)
+                        RadioState.uploadCodeplug();
+                }catch(Exception e){
+                    RadioState.drawbackstring("Error.");
+                    Log.e("RADIORESULT", "Error in background task.", e);
                 }
-                if(downloadcodeplug)
-                    RadioState.downloadCodeplug();
-                if(erasetarget)
-                    RadioState.eraseTargetCodeplug();
-                if(uploadcodeplug)
-                    RadioState.uploadCodeplug();
 
 
                 Log.v("RADIORESULT", "Disconnecting.");
