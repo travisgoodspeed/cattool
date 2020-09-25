@@ -3,20 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_codeplug">
 
+
+    <!--
     <fragment
         android:id="@+id/nav_home"
         android:name="com.kk4vcz.goodspeedscattool.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
-
     <fragment
         android:id="@+id/nav_cat"
         android:name="com.kk4vcz.goodspeedscattool.ui.cat.CatFragment"
         android:label="@string/menu_cat"
         tools:layout="@layout/fragment_cat" />
+        -->
 
     <fragment
         android:id="@+id/nav_codeplug"

@@ -192,15 +192,20 @@ public class RadioState {
         mainActivity.runOnUiThread(new Runnable(){
             public void run(){
                 //TODO better CAT.
-                textFreqa.setText(String.format("%d\n%d",freqa,freqb));
+                try {
+                    if(textFreqa!=null)
+                        textFreqa.setText(String.format("%d\n%d", freqa, freqb));
 
-                //This updates the codeplug view.
-                if(codeplugViewAdapter!=null)
-                    codeplugViewAdapter.notifyDataSetChanged();
+                    //This updates the codeplug view.
+                    if (codeplugViewAdapter != null)
+                        codeplugViewAdapter.notifyDataSetChanged();
 
 
-                progressBar.setProgress(progress);
-                progressBar.setVisibility(progress<100 ? View.VISIBLE : View.INVISIBLE);
+                    progressBar.setProgress(progress);
+                    progressBar.setVisibility(progress < 100 ? View.VISIBLE : View.INVISIBLE);
+                }catch(NullPointerException e){
+                    Log.e("RadioState", "Null pointer when drawing the frequencies.");
+                }
             }
         });
     }
