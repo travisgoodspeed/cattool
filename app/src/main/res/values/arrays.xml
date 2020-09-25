@@ -4,7 +4,7 @@
         <item>Kenwood TH-D74</item>
         <item>Kenwood TH-D72</item>
         <item>Kenwood TM-D710</item>
-        <item>Yaesu FT-991A</item>
+        <!--<item>Yaesu FT-991A</item>-->
     </string-array>
 
     <string-array name="radio_values">
