@@ -2,8 +2,10 @@
 
 This is an Android app for programming the Kenwood TH-D74, TH-D72, and
 TM-D710.  Based on
-[CodePlugTool](https://github.com/travisgoodspeed/codeplugtool) which
-is a pure-Java library for controlling these same radios.
+[CodePlugTool](https://github.com/travisgoodspeed/codeplugtool),
+a pure-Java library for controlling these same radios.
+
+![CAT Tool Menu](menu.png)
 
 ## Status
 
