@@ -8,7 +8,7 @@ android {
         applicationId "com.kk4vcz.goodspeedscattool"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 2
+        versionCode 3
         versionName "2020-08-22"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
