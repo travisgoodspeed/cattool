@@ -1,9 +1,15 @@
 # Goodspeed's CAT Tool
 
-This is an Android app for programming the Kenwood TH-D74, TH-D72, and
-TM-D710.  Based on
-[CodePlugTool](https://github.com/travisgoodspeed/codeplugtool),
-a pure-Java library for controlling these same radios.
+This is the source code for an Android app for programming the Kenwood
+TH-D74, TH-D72, and TM-D710.  Based on
+[CodePlugTool](https://github.com/travisgoodspeed/codeplugtool), a
+pure-Java library and command line tool for controlling these same
+radios.
+
+If you'd rather just install the app, it's available for free as
+[Goodspeed's CAT
+Tool](https://play.google.com/store/apps/details?id=com.kk4vcz.goodspeedscattool)
+in the Play Store.
 
 ![CAT Tool Menu](menu.png)
 
